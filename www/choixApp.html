@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+	<script>
+	</script>
+
+        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+        <title>Obexto Mobilité - Notes De Frais</title>
+
+</head>
+<body style="background-color: gainsboro;">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-8">
+				<img id="img" src="./img/obexto.png" width="100%" class="img-responsive"/>
+			</div>
+			<div class="col-xs-4 pull-right">
+				<a href="./index.html"><i id="ajoutNote" class="fa fa-arrow-circle-left fa-3x" title="revenir à l'accueil"></i></a>
+			</div>
+		</div>
+		
+	<hr />
+		
+		<div id="az" class="row" style="visibility: hidden">
+			<div class="col-xs-8">
+				<h2> Notes de Frais </h2>
+			</div>
+			<div class="col-xs-4">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-6">
+			
+				<button type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNoteIK.html' )"> IK </button>
+			</div>
+			<div class="col-xs-6">
+				<button type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNote.html' )"> AUTRES </button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

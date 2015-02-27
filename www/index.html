@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+
+        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+        <title>Obexto Mobilité - Notes De Frais</title>
+    </head>
+    <body style="background-color: gainsboro;" onload="javascript:onLoad();">
+	<img src="./img/obexto.png" width="50%" />
+	<h2> Notes de Frais </h2>
+	<hr />
+	<div  id="ZoneErreur" class="row">
+		<div class="alert alert-info" role="alert">
+			<p class="text-danger bg-warning" style="display: none;"> </p>
+		</div>
+	</div>		
+	<!-- LE PANNEAU DE CONNEXION -->
+	<div class="panel panel-default" id="connexionPane" style="display: none;">
+		<div class="panel-body">
+			<form id="authentificationErp" name="authentificationErp" enctype="application/x-www-form-urlencoded" method="post">
+				<div class="container">
+				<fieldset>
+					<legend> Accés Obexto Mobilité : </legend>
+					<div class="row">
+						<div class="form-group">
+							<label for="network"> URL : </label>
+							<input type="text" id="network"  class="form-control" name="network" autofocus width="100%" placeholder="L'adresse de votre serveur Obexto"/>
+						</div>
+						<div class="form-group">
+							<label for="log"> Login : </label>
+							<input type="text" id="login"  class="form-control" name="login" autofocus width="100%" placeholder="Votre Identifiant Obexto"/>
+						</div>
+						<div class="form-group">
+							<label for="pw"> Mot De Passe : </label>
+							<input type="password" id="password" class="form-control" name="password" width="100%" placeholder="Votre Mot de Passe Obexto"/>
+						</div>
+					</div>
+					<div class="row pull-right">
+							<br />
+							<button id="resetAuthentification" type="reset" value="Reset" class="btn btn-success "> Reset </button>
+							<button id="submitAuthentification" value="OK" class="btn btn-success " type="button" onclick="javascript: validerFormulaireConnexion()"> OK </button>
+					</div>
+				</fieldset>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div id="modal-connexion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalConnexion" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- <div class="modal-header">
+				<button type="button" class="close" data-dissmiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span> </button> 
+				<h4 class="modal-tite" id="modalConnexion"> Obexto ERP Mobile</h4>
+			</div> -->
+			<div class="modal-body">
+				<i class="fa fa-circle-o-notch fa-spin"></i> Connexion en cours ... 
+			</div>
+		</div>
+		</div>
+	</div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/authentification.js"></script>
+	<script type="text/javascript">
+		var errorResponse, msgErreurCx, errorCxContext;
+		
+		// definition d'un marqueur de cache si inexistant
+		if( localStorage.getItem( "cached_data" ) == "undefined" ) {
+			localStorage.setItem( "cached_data", false );
+		}
+
+		function onDeviceReady() {
+			alert( "Device Ready OK" );
+		}
+		function onLoad() {
+			// PhoneGap specific, precise le chargement de PhoneGap
+			document.addEventListener('deviceready', onDeviceReady, false );
+		
+			document.getElementById('connexionPane').style.display = 'none';
+
+			// Verification automatique de la connexion et adaptation au mode online / offline
+			if ( navigator.onLine ) {
+				authentifierUtilisateur();
+			} else {
+				validerConnexionOffline();
+			}
+		}
+
+	</script>
+    </body>
+</html>

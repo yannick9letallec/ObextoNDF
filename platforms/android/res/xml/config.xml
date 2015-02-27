@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.obexto.mobilityapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="SpeechRecognizer">
+        <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="Base64">
+        <param name="android-package" value="com.badrit.Base64.Base64Plugin" />
+    </feature>
+    <gap:splash gap:platform="android" gap:qualifier="land-ldpi" src="splash-1.png" />
+    <gap:splash gap:platform="android" gap:qualifier="land-mdpi" src="splash-1.png" />
+    <gap:splash gap:platform="android" gap:qualifier="land-hdpi" src="splash-1.png" />
+    <gap:splash gap:platform="android" gap:qualifier="land-xhdpi" src="splash-1.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="splash-2.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="splash-2.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="splash-2.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="splash-2.png" />
+    <gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />
+    <name>Obexto Note de Frais </name>
+    <description>
+        Obexto Note de Frais : Outils dédiés à la gestion des notes de frais en mobilité.
+    </description>
+    <author email="yannick9letallec@gmail.com" href="http://www.obexto.fr">
+        Yannick @ Obexto 
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <gap:platform name="android" />
+    <icon height="57" platform="android" src="icon.png" width="57" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.vibration" />
+    <gap:plugin name="org.apache.cordova.dialogs" />
+    <gap:plugin name="org.apache.cordova.geolocation" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="org.apache.cordova.file-transfer" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="4000" />
+</widget>

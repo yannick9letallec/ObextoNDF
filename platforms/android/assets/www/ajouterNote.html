@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"> </script>
+	<script type="text/javascript" src="js/bootstrap.js"> </script>
+	<style type="text/css">
+		/* specific css to hide spinner elements of input type = number */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+		}
+	</style>
+
+        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+        <title>Obexto Mobilité - Notes De Frais</title>
+    </head>
+    <body style="background-color: gainsboro;" onload="javascript:onLoad();">
+	<img src="./img/obexto.png" width="50%" />
+	<div class="container">
+		<form id="formAjoutNDF">
+
+		<div class="row">
+			<div class="col-xs-10">
+				<h4> CREER NOTE DE FRAIS </h4>
+			</div>
+			<div class="col-xs-2">
+				<a href="./index.html" class="pull-right"> <i id="ajoutNote" class="fa fa-arrow-circle-left fa-2x" title="revenir à l'accueil"></i> </a>
+			</div>
+		</div>
+		<div class="row">
+			<div id="rcpt_post_image" class="col-xs-2"> </div>
+			<div class="col-xs-4 col-xs-offset-6">
+				<button type="button" role="button" class="btn btn-default btn-block" href="#" onclick="javascript:selectPictureSrc();"><i class="fa fa-camera"></i> Photo </button>
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<label for="type-ndf"> Type Note de Frais </label>
+			</div>
+			<div class="col-xs-8">
+				<select id="type-ndf" class="form-control" name="type-ndf" onchange="javascript:getIdTypeNDF();">
+				</select>
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<label for="moy-paie"> Moyen de Paiement </label>
+			</div>
+			<div class="col-xs-8">
+				<select id="moy-paie" class="form-control" name="moy-paie" onchange="javascript:getIdMoyPaiement();">
+				</select>
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<label for="VAL_NOTE_FRAI"> Montant TTC </label>
+			 </div>
+			<div class="col-xs-8">
+				<input id="VAL_NOTE_FRAI" type="number" class="form-control" min="0" step="any" placeholder="00000.00" onkeypress="return isMontantValid( event );" />
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-5">
+				<label for="REMQ_NOTE_FRAI"> Remarque : </label> <br />
+			</div>
+			<div class="col-xs-2 col-xs-offset-5">
+				<i id="micro" class="pull-right fa fa-2x fa-microphone" ontouchstart="javascript:testSpeech();"></i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<textarea id="REMQ_NOTE_FRAI" class="form-control" placeholder="Saisissez votre remarque"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<!-- //////////////// GEOLACALISATION MANUELLE /////////////////// -->
+			<!-- <div class="col-xs-10 col-xs-offset-2">
+				<input id="geoLocManuel" type="checkbox" onchange="javascript:releveGeoLocalisation('ASSO');" unchecked /> <label for="geoLocManuel"> Associer ma position ... </label>
+			</div> --> 
+			<div class="col-xs-6 col-xs-offset-3">
+				<button type="button" role="button" class="btn btn-success btn-block" value="Envoyer" id="btnEnvoyerNote" onclick="javascript:envoyerNDF();"> Envoyer </button>
+			</div>
+		</div>
+		<div class="row">
+			<div id="ajaxReceiver"> </div>
+		</div>
+		
+		</form>
+	<div>
+
+        <script type="text/javascript" src="cordova.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/angular.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/index.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/connexionsERP.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/cameraLocal.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/speechLocal.js" charset="utf-8" defer></script>
+	<script type="text/javascript" charset="UTF-8">
+	
+		/*  	Tableau des positions Geolocalisation 
+			0 -> LAT_CREA
+			1 -> LONG_CREA
+			2 -> LAT_ASSO
+			3 -> LONG_ASSO
+			4 -> LAT_ENV
+			5 -> LONG_ENV
+		*/
+
+		// Definition des variables pour l'envoi SOAP
+		var LAT_PHOT, LNGT_PHOT, LAT_CREA, LNGT_CREA, LAT_ASSO, LNGT_ASSO, LAT_ENV, LNGT_ENV;
+		var CONT_DOC_NOTE_FRAI, NOM_FIC, REMQ_NOTE_FRAI, DTE_CREA_UTC, DTE_PREM_ENV_UTC, VAL_NOTE_FRAI, ID_TYPE_NOTE_FRAI, ID_MOY_PAIE;
+		var path_to_img, lat, lngt, PATH_FIC; 
+
+
+		function onDeviceReady() {
+			alert( "Device Ready OK" );
+		}
+		function onLoad() {
+			window.document.addEventListener( "deviceready", onDeviceReady, false );
+			window.setInterval( function() {
+				if ( window.plugins.Base64.encodeFile ){ console.log( "B64 OK "); } else { console.log( "B64 KO" ); }
+			}, 100 );
+
+			verifierPresenceNDFTemporaire();
+
+			document.addEventListener( 'resume', function () {
+				isOnline( function() {
+					reinitSelect( "type-ndf" );	
+					reinitSelect( "moy-paie" );	
+					connexionOK();
+				}, getAppDataCache );
+			});
+			isOnline( connexionOK, getAppDataCache );
+
+			// création de la date de création @DTE_CREA_UTC
+			dateFormatSQLServer ( "CREA" );
+
+			// relevé Geolocalisation
+			releveGeoLocalisation("CREA");
+		}
+		function isMontantValid( evt ){
+		         var charCode = (evt.which) ? evt.which : evt.keyCode;
+			// console.log( "CHAR CODE : " + charCode );
+		         if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+
+			 return true;
+		}
+
+	</script>
+    </body>
+</html>
