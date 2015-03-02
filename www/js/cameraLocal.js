@@ -54,6 +54,9 @@ function takePicture ( x ) {
 		  PATH_FIC = file;
 		  NOM_FIC = file.slice( file.lastIndexOf( "/" ) + 1 );
 		  
+		  // activation du bouton ENVOYER
+		  document.getElementById( "btnEnvoyerNote" ).disabled = false;
+
 		  // ONLINE ou OFFLINE, on génère le base64, qui sera éventuellement transformé en chemin si envoi offline
 		  img2base64();
 

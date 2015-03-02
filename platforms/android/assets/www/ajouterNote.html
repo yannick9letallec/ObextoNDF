@@ -51,7 +51,7 @@
 				<h4> CREER NOTE DE FRAIS </h4>
 			</div>
 			<div class="col-xs-2">
-				<a href="./index.html" class="pull-right"> <i id="ajoutNote" class="fa fa-arrow-circle-left fa-2x" title="revenir à l'accueil"></i> </a>
+				<a href="./choixApp.html" class="pull-right"> <i id="ajoutNote" class="fa fa-arrow-circle-left fa-2x" title="revenir à l'écran de choix"></i> </a>
 			</div>
 		</div>
 		<div class="row">
@@ -83,7 +83,7 @@
 				<label for="VAL_NOTE_FRAI"> Montant TTC </label>
 			 </div>
 			<div class="col-xs-8">
-				<input id="VAL_NOTE_FRAI" type="number" class="form-control" min="0" step="any" placeholder="00000.00" onkeypress="return isMontantValid( event );" />
+				<input id="VAL_NOTE_FRAI" type="number" class="form-control" min="0" step="any" placeholder="00.00" onkeypress="return isMontantValid( event );" />
 			 </div>
 		</div>
 		<div class="row">
@@ -91,7 +91,7 @@
 				<label for="REMQ_NOTE_FRAI"> Remarque : </label> <br />
 			</div>
 			<div class="col-xs-2 col-xs-offset-5">
-				<i id="micro" class="pull-right fa fa-2x fa-microphone" ontouchstart="javascript:testSpeech();"></i>
+				<i id="micro" class="pull-right fa fa-2x fa-microphone"></i>
 			</div>
 		</div>
 		<div class="row">
@@ -105,7 +105,7 @@
 				<input id="geoLocManuel" type="checkbox" onchange="javascript:releveGeoLocalisation('ASSO');" unchecked /> <label for="geoLocManuel"> Associer ma position ... </label>
 			</div> --> 
 			<div class="col-xs-6 col-xs-offset-3">
-				<button type="button" role="button" class="btn btn-success btn-block" value="Envoyer" id="btnEnvoyerNote" onclick="javascript:envoyerNDF();"> Envoyer </button>
+				<button type="button" role="button" class="btn btn-success btn-block" value="Envoyer" id="btnEnvoyerNote" onclick="javascript:envoyerNDF();" disabled> Envoyer </button>
 			</div>
 		</div>
 		<div class="row">
@@ -113,9 +113,26 @@
 		</div>
 		
 		</form>
-	<div>
+
+	<!-- //////////////////////////////// MODAL POUR L ENVOI DES NDF TEMPORAIRES ///////////////////////////////// -->
+	<div id="div-envoi-ndf-attente" role="dialog" class="modal fade" tabindex="-1" aria-labelledby="div-envoi-ndf-attente" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"> Traitement Des Notes de Frais Temporisé(es) <h4>
+				</div>
+				<div id="modal-body" class="modal-body">
+					<p> Merci de patienter pendant l'envoi des notes de frais en attentes ... </p>
+					<p id="nb-notes-en-attente"> </p>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div>
 
         <script type="text/javascript" src="cordova.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="rsvp.js-3.0.17/lib/rsvp.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="js/angular.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="js/index.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="js/connexionsERP.js" charset="utf-8" defer></script>
@@ -135,21 +152,21 @@
 		// Definition des variables pour l'envoi SOAP
 		var LAT_PHOT, LNGT_PHOT, LAT_CREA, LNGT_CREA, LAT_ASSO, LNGT_ASSO, LAT_ENV, LNGT_ENV;
 		var CONT_DOC_NOTE_FRAI, NOM_FIC, REMQ_NOTE_FRAI, DTE_CREA_UTC, DTE_PREM_ENV_UTC, VAL_NOTE_FRAI, ID_TYPE_NOTE_FRAI, ID_MOY_PAIE;
-		var path_to_img, lat, lngt, PATH_FIC; 
-
+		var  path_to_img, lat, lngt, PATH_FIC; 
+		var nb_notes_tmp = 0;
 
 		function onDeviceReady() {
 			alert( "Device Ready OK" );
 		}
 		function onLoad() {
 			window.document.addEventListener( "deviceready", onDeviceReady, false );
-			window.setInterval( function() {
-				if ( window.plugins.Base64.encodeFile ){ console.log( "B64 OK "); } else { console.log( "B64 KO" ); }
-			}, 100 );
-
-			verifierPresenceNDFTemporaire();
-
-			document.addEventListener( 'resume', function () {
+			window.document.addEventListener( "online", function() {
+				toggleASRBtn( "OK" );
+			});
+			window.document.addEventListener( "offline", function() {
+				toggleASRBtn( "KO" );
+			});
+			window.document.addEventListener( 'resume', function () {
 				isOnline( function() {
 					reinitSelect( "type-ndf" );	
 					reinitSelect( "moy-paie" );	

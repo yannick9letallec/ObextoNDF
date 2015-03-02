@@ -53,6 +53,7 @@
 	<gap:plugin name="org.apache.cordova.geolocation" />
 	<gap:plugin name="org.apache.cordova.file" />
 	<gap:plugin name="org.apache.cordova.file-transfer" />
+	<gap:plugin name="org.apache.cordova.network-information" />
 
 <platform name="android">
 	<gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />

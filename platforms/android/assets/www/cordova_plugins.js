@@ -86,6 +86,21 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/org.apache.cordova.network-information/www/network.js",
+        "id": "org.apache.cordova.network-information.network",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.network-information/www/Connection.js",
+        "id": "org.apache.cordova.network-information.Connection",
+        "clobbers": [
+            "Connection"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
         "id": "org.apache.cordova.file.DirectoryEntry",
         "clobbers": [
@@ -243,6 +258,7 @@ module.exports.metadata =
     "com.phonegap.plugins.speech": "1.0.0",
     "org.apache.cordova.file-transfer": "0.5.0",
     "com.badrit.Base64": "0.1.0",
+    "org.apache.cordova.network-information": "0.2.15",
     "org.apache.cordova.file": "1.3.3"
 }
 // BOTTOM OF METADATA

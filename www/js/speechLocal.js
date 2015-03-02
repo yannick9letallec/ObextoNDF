@@ -4,7 +4,7 @@ function startSpeech () {
 	var language = "fr_FR";
 	window.plugins.speechrecognizer.startRecognize( 
 		function( result ) {
-			document.getElementById('REMQ_NOTE_FRAI').innerHTML = result;
+			document.getElementById('REMQ_NOTE_FRAI').value = result;
 		},
 		function( errorMessage ) {
 			console.log( "Erreur : " + errorMessage );

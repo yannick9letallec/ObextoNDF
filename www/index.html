@@ -37,22 +37,24 @@
 	<img src="./img/obexto.png" width="50%" />
 	<h2> Notes de Frais </h2>
 	<hr />
-	<div  id="ZoneErreur" class="row">
-		<div class="alert alert-info" role="alert">
-			<p class="text-danger bg-warning" style="display: none;"> </p>
-		</div>
+	<div class="container">
+		<div  id="ZoneErreur" class="row">
+			<div class="alert alert-info" role="alert">
+				<p class="text-danger bg-warning" style="display: none;"> </p>
+			</div>
+		</div>		
 	</div>		
 	<!-- LE PANNEAU DE CONNEXION -->
-	<div class="panel panel-default" id="connexionPane" style="display: none;">
+	<div class="panel panel-default" id="connexionPane" style="display: initial;">
 		<div class="panel-body">
 			<form id="authentificationErp" name="authentificationErp" enctype="application/x-www-form-urlencoded" method="post">
 				<div class="container">
 				<fieldset>
-					<legend> Accés Obexto Mobilité : </legend>
+					<legend> Accès Obexto Mobilité : </legend>
 					<div class="row">
 						<div class="form-group">
-							<label for="network"> URL : </label>
-							<input type="text" id="network"  class="form-control" name="network" autofocus width="100%" placeholder="L'adresse de votre serveur Obexto"/>
+							<label for="server"> URL : </label>
+							<input  id="server" type="text" class="form-control" name="server" autofocus width="100%" placeholder="L'adresse de votre serveur Obexto"/>
 						</div>
 						<div class="form-group">
 							<label for="log"> Login : </label>
@@ -105,14 +107,14 @@
 			// PhoneGap specific, precise le chargement de PhoneGap
 			document.addEventListener('deviceready', onDeviceReady, false );
 		
-			document.getElementById('connexionPane').style.display = 'none';
-
 			// Verification automatique de la connexion et adaptation au mode online / offline
+			/*
 			if ( navigator.onLine ) {
 				authentifierUtilisateur();
 			} else {
 				validerConnexionOffline();
 			}
+			*/
 		}
 
 	</script>

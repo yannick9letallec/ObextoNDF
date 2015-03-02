@@ -3,6 +3,8 @@ function recupererTypeNote( ) {
 	// variable soap et données de connexion
 	var log = window.localStorage.getItem( "login" );
 	var pw = window.localStorage.getItem( "password" );
+	var server = window.localStorage.getItem( "server" );
+
 	var command = "mobile.TYPES_NOTES_DE_FRAIS_EXTRAIRE"; 
 
 	var soapMsg = "<?xml version='1.0' encoding='utf-8'?>" +
@@ -63,7 +65,7 @@ function recupererTypeNote( ) {
                 alert( "XHR KO" );
         }
 
-        xhr.open( "POST", "http://developpement.obexto.fr/Services/Mobile.asmx", true ); 
+        xhr.open( "POST", "https://" + server + "/Services/Mobile.asmx", true ); 
         xhr.setRequestHeader( "Content-Type", "text/xml; charset=utf-8;" ); // application/x-www-form-urlencoded; charset=utf-8;" );
         xhr.setRequestHeader( "SOAPAction", "http://obexto.fr/Services/ExecuteCommand" );
 
@@ -236,7 +238,7 @@ function genererSoapMsg() {
 	return soapMsg;
 }
 	
-function envoyerNDFSoap( soapMsg ) {
+function envoyerNDFSoap( soapMsg, origin ) {
 
 		// FEATURE DETECTION & ADAPTATION NAVIGATEUR
 		if( window.XMLHttpRequest ) {
@@ -263,14 +265,30 @@ function envoyerNDFSoap( soapMsg ) {
 				}
 			}
 			xhr.onloadend = function () {
-				finEnvoyerNDF();
+				// en cas de note temporaire, suppression des variables dans le localStorage et suppression du fichier dans le cache applicatif
+				if( origin ){
+					localStorage.removeItem( origin );
+					console.log( "Local Storage : suppression de : " + origin );
+					nb_notes_tmp--;
+					console.log( "nb_notes_tmp : " + nb_notes_tmp );
+					document.getElementById( "modal-body" ).innerHTML = "<h5> Il reste <b>" + nb_notes_tmp + " élément(s) </b> en attente de traitement </h5>"
+					// il n'y a plus de note temporaires en attente
+					if( nb_notes_tmp === 0 ){
+						console.log( "nb_notes_tmp = 0" );
+						toggleModal( "#div-envoi-ndf-attente" );
+					} else {
+						console.log( "nb_notes_tmp : " + nb_notes_tmp );
+					}
+				} else {
+					finEnvoyerNDF();
+				}
 			};
 
 		} else {
 			alert( "XHR KO" );
 		}
 
-		xhr.open( "POST", "http://developpement.obexto.fr/Services/Mobile.asmx", true );
+		xhr.open( "POST", "https://" + localStorage.getItem( "server" ) + "/Services/Mobile.asmx", true );
 		xhr.setRequestHeader( "Content-Type", "text/xml; charset=utf-8;" ); // application/x-www-form-urlencoded; charset=utf-8;";
 		xhr.setRequestHeader( "SOAPAction", "http://obexto.fr/Services/ExecuteCommand" );
 
@@ -303,13 +321,21 @@ function dateFormatSQLServer ( type ){
 
 	switch( type ){
 	case "CREA" :
-		DTE_CREA_UTC = date;
+		if( typeof DTE_CREA_UTC === "undefined" ){
+			DTE_CREA_UTC = date;
+			console.log( "dateFormatSQLServer : date générée : DTE_CREA_UTC : " + date );
+		}
 		break;
 	case "ENV" :
 		if( typeof DTE_PREM_ENV_UTC === "undefined" ){
 			DTE_PREM_ENV_UTC = date;
+			console.log( "dateFormatSQLServer : date générée : DTE_PREM_ENV_UTC : " + date );
 		}
 		break;
+	default :
+		console.log( "REINIT des Dates ( DTE_CREA_UTC, DTE_PREM_ENV_UTC )" );
+		DTE_CREA_UTC = date;
+		DTE_PREM_ENV_UTC = undefined;
 	}
 }	
 
@@ -346,13 +372,18 @@ function tronque( val ) {
 }
 
 
-function img2base64() {
+function img2base64( i, path, origine ) {
 // transformer l'image prise par l'utilisateur en base 64 et associer le résultat à CONT_DOC_NOTE_FRAI
 	window.plugins.Base64.encodeFile( path_to_img, function( base64 ) {
-		console.log( "Encodage 64 " + typeof base64 );
+		console.log( "Encodage 64 NDF_" + i ? i : "" );
 		var n = base64.indexOf( "," );
 		var s = base64.slice( n + 1 );
 		CONT_DOC_NOTE_FRAI = s;
+
+		if( origine == "NDFTemporaires" ){
+			console.log( "MISE A JOUR NDF TEMP" );
+			finaliserNDFAttente( i, CONT_DOC_NOTE_FRAI ) ;
+		}
 	}); 
 }
 
@@ -362,6 +393,7 @@ function recupererMoyensPaiement( ) {
 	// variable soap et données de connexion
 	var log = window.localStorage.getItem( "login" );
 	var pw = window.localStorage.getItem( "password" );
+	var server = window.localStorage.getItem( "server" );
 	var command = "mobile.NOTES_DE_FRAIS_MOYENS_PAIEMENT_EXTRAIRE"; 
 
 	var soapMsg = "<?xml version='1.0' encoding='utf-8'?>" +
@@ -414,7 +446,6 @@ function recupererMoyensPaiement( ) {
 					}
 					// mise en cache
 					setCacheOffline( "MOY_PAIE", "false" );
-					
 				}
                         }
                 }
@@ -422,7 +453,7 @@ function recupererMoyensPaiement( ) {
                 alert( "XHR KO" );
         }
 
-        xhr.open( "POST", "http://developpement.obexto.fr/Services/Mobile.asmx", true );
+        xhr.open( "POST", "https://" + server + "/Services/Mobile.asmx", true );
         xhr.setRequestHeader( "Content-Type", "text/xml; charset=utf-8;" ); // application/x-www-form-urlencoded; charset=utf-8;" );
         xhr.setRequestHeader( "SOAPAction", "http://obexto.fr/Services/ExecuteCommand" );
 
@@ -434,7 +465,7 @@ function setCacheOffline( call, deja ) {
 
 	switch( call ) {
 	case "TYPE_NDF" :
-		console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs du Local Storage" );
+		console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs Type NDF du Local Storage" );
 		for( var i = 0; i < localStorage.length; i++ ){
 			if((  typeof localStorage.getItem( "idTypeNDF_" + i )) || ( typeof localStorage.getItem( "typeNDF_" + i ) === "string" )) {
 				console.log( "LS suppression : idTypeNDF_ & typeNDF_" + i );
@@ -458,7 +489,7 @@ function setCacheOffline( call, deja ) {
 		}
 	break;
 	case "MOY_PAIE" :
-		console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs du Local Storage" );
+		console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs Moyen Paiement du Local Storage" );
 		for( var i = 0; i < localStorage.length; i++ ){
 			if(( typeof localStorage.getItem( "idMoyPaie_" + i ) === "string" ) || ( typeof localStorage.getItem( "typeMoyPaie_" + i ) === "string" )) {
 				console.log( "LS suppression : idMoyPaie_ & typeMoyPaie_" + i );
@@ -484,6 +515,8 @@ function setCacheOffline( call, deja ) {
 	}
 }
 function getAppDataCache( ) {
+	// mise a jour du btn ASR
+	toggleASRBtn( "INIT" );
 	var sel;
 	// Cache TYPE_NDF
 	console.log( "OFFLINE : APPEL DU CACHE : SELECT TYPE_NDF FOR IHM" );
@@ -533,9 +566,15 @@ function isOnline( yes, no ){
     xhr.send();
 }
 function connexionOK( ){
-	console.log( "[OK] Internet online" );
+	console.log( "[OK] Connexion Internet" );
 	recupererTypeNote ();
 	recupererMoyensPaiement ();
+	toggleASRBtn( "INIT" ); // active ou pas le bouton pour la prise de note vocale
+
+	if( verifierPresenceNDFTemporaire() ){
+		console.log( "----------------" + "\r" + "Ouverture Modale pour ( " + nb_notes_tmp + " ) NDF temporaire(s)" );
+		toggleModal( "#div-envoi-ndf-attente" );
+	}
 
 	localStorage.setItem( "cached_data", true );
 }
@@ -586,8 +625,8 @@ function finEnvoyerNDF() {
 	form = document.getElementById( 'formAjoutNDF' );			
 	form.reset();
 
-	try {
 	// suppression de la vignette
+	try {
 	img = document.getElementById("rcpt_post_image" );
 	img.removeChild( img.childNodes[0] );
 	} catch ( e ) {
@@ -601,11 +640,17 @@ function finEnvoyerNDF() {
 	}
 	el.disabled = false;
 
+	// desactivation du bouton ENVOYER
+	document.getElementById( "btnEnvoyerNote" ).disabled = true;
+
+	// reinitialisation des dates
+	dateFormatSQLServer( );	
+
 }
 
-function envoyerNDFTemporaires() {
-	var deb, fin, part1, part2, note, cont;
-	nb_notes = 0;
+
+function preparerNDFTemporaires() {
+	var deb, fin, part1, part2, note;
 
 	console.log( "[ENVOI] : NOTES TEMPORAIRES" );
 
@@ -613,15 +658,17 @@ function envoyerNDFTemporaires() {
 		note = localStorage.getItem( "NDF_" + i );
 
 		if( note ) {
-			nb_notes ++;
 			console.log( "NOTE EN COURS : NDF_" + i );
-			// extraction du fichier
+
+			// extraction du fichier - pour generer le path_to_img specific
 			deb = note.search( "file:///" );
 			fin = note.lastIndexOf( ".jpg" ) + 4;
 
 			if( deb === -1 || fin === -1 ){
 				console.log( "NDF_" + i + " SANS PHOTO : " + note );
+				finaliserNDFAttente( i );
 			} else {
+
 				part1 = note.slice( 0, deb );
 				part2 = note.slice( fin );
 
@@ -631,48 +678,86 @@ function envoyerNDFTemporaires() {
 				console.log( "part2 : " + part2 );
 				console.log( "path_to_img : " + path_to_img );
 
-				try {
-					if( window.plugins.Base64.encodeFile ) {
-						window.plugins.Base64.encodeFile( path_to_img, function( base64 ) {
-							console.log( "Encodage 64 " );
-							var n = base64.indexOf( "," );
-							var s = base64.slice( n + 1 );
-							CONT_DOC_NOTE_FRAI = s;
-						});
-					} else {
-						console.log( "[TRY] RECURSIVITE ENVOYER NDF TEMPORAIRES" );
-						envoyerNDFTemporaires();
-					}
+				try {	
+					// conversion en base64
+					img2base64( i, path_to_img, "NDFTemporaires" );
 				} catch ( e ) {
-					console.log( "[TRY] RECURSIVITE ENVOYER NDF TEMPORAIRES" );
-					envoyerNDFTemporaires();
+					console.log( "[CATCH] RECURSIVITE ENVOYER NDF TEMPORAIRES" );
+					preparerNDFTemporaires();
 					// console.log( e.message );
 				}
-				// console.log( "Conversion Base64 : " + CONT_DOC_NOTE_FRAI.substr( 0, 150 ) );
-
-				// insertion dans la trame SOAP
-
-				cont = part1 + CONT_DOC_NOTE_FRAI + part2;
-				localStorage.setItem( "NDF_" + i, cont );
-				console.log( "PArt1 + Base64 + Part2 : " + cont );
-			}
-			// envoie de la note
-			// envoyerNDFSoap( cont );
-			// supprimer la note du local Storage
-			// supprimer le fichier du cache applicatif
-		}
-	}
-	console.log( nb_notes + " : NDF en attente de TRAITEMENT" );
+		} } }
+	document.getElementById( "modal-body" ).innerHTML = "<h5> Il reste <b>" + nb_notes_tmp + " élément(s) </b> en attente de traitement </h5>"
+	console.log( nb_notes_tmp + " : NDF en attente de TRAITEMENT" );
 };
 
+
 function verifierPresenceNDFTemporaire () {
+	var marque = false;
+
 	for( var i = 0; i < localStorage.length; i++ ){
 		if ( localStorage.getItem( "NDF_" + i )) {
-			console.log( "NDF TEMPORAIRES PRESENTES" );
-			envoyerNDFTemporaires();
-			break;
+			marque = true;
+			console.log( "nb_notes_tmp ++" );
+			nb_notes_tmp ++;
 		}
 	}
+	if( marque ){
+		console.log( "NDF TEMPORAIRES : PRESENCE" );
+		preparerNDFTemporaires();
+	} else {	
+		console.log( "NDF TEMPORAIRES : AUCUNES" );
+	}
+	console.log( "nb_notes_tmp : " + nb_notes_tmp );
+	return marque;
 }
 
 
+function finaliserNDFAttente( i, b64 ){
+	var deb, fin, part1, part2;
+
+	note = localStorage.getItem( "NDF_" + i );
+
+	// extraction du fichier
+	if( b64 ) {
+		console.log( "NDF en attente avec Image" );
+		deb = note.search( "file:///" );
+		fin = note.lastIndexOf( ".jpg" ) + 4;
+		part1 = note.slice( 0, deb );
+		part2 = note.slice( fin );
+
+		localStorage.setItem( "NDF_" + i, part1 + b64 + part2 );
+	} else {
+		console.log( "NDF en attente sans Image" );
+	}
+	envoyerNDFSoap( localStorage.getItem( "NDF_" + i ), "NDF_" + i );
+}
+
+function toggleModal( mod ){
+	$( mod ).modal( 'toggle' );
+}
+
+
+function toggleASRBtn( etat ) {
+	var btn = document.getElementById( "micro" );
+	switch( etat ){
+	case "INIT" :
+		console.log( "ASR TOGGLING INIT" );
+		isOnline( function () {
+			toggleASRBtn( "OK" );
+		}, function () {
+			toggleASRBtn( "KO" );
+		});
+	break;
+	case "OK" :
+		console.log( "ASR TOGGLING OK" );
+		btn.style.opacity = "1";
+		btn.setAttribute( "ontouchstart", "javascript:testSpeech();" );
+	break;
+	case "KO" :
+		console.log( "ASR TOGGLING KO" );
+		btn.style.opacity = "0.5";
+		btn.removeAttribute( "ontouchstart" );
+	break;
+	}
+}

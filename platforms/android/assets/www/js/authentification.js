@@ -9,7 +9,7 @@ function authentifierUtilisateur () {
 	if( utilisateurDejaEnregistre() ){
 		document.getElementById( 'connexionPane' ).style.display = 'none';
 		console.log( 'utilisateurDejaEnregistre() -> OUI -> masquage du connexion Pane, appel de la procédure de connexion ,et vérification des droits' );
-		connexionErpMobile( window.localStorage.getItem( 'login' ), window.localStorage.getItem( 'password' ) );
+		connexionErpMobile( window.localStorage.getItem( 'login' ), window.localStorage.getItem( 'password' ), window.localStorage.getItem( 'server' ) );
 		verifierDroitsAccesErp();
 		$('#modal-connexion').modal( 'toggle' ); 
 		document.getElementById( 'connexionPane' ).style.display = 'initial';
@@ -26,7 +26,7 @@ function utilisateurDejaEnregistre (){
 	// test feature localStorage
 	if( window.Storage !== "undefined" ){
 		// on teste si les variables de connexion existent
-		if( typeof localStorage.login === "undefined" && typeof localStorage.password === "undefined" ){
+		if( typeof localStorage.login === "undefined" || typeof localStorage.password === "undefined" || localStorage.server === "undefined" ){
 			return false;
 		} else {
 			return true;
@@ -38,14 +38,15 @@ function utilisateurDejaEnregistre (){
 
 
 // vérification des droits via le MCD mobile
-function connexionErpMobile( login, password ) {
-	console.log( "log : " + login + " , pw : " + password );
+function connexionErpMobile( login, password, server ) {
+	console.log( "log : " + login + " , pw : " + password + " , server : " + server );
 
 	var command = "mobile.TESTER_CONNEXION";
+	var service = "http://obexto.fr/Services";
 	var soapMsg = "<?xml version='1.0' encoding='utf-8'?>" +
 	"<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>" + 
         "<soap:Body>" + 
-        "<ExecuteCommand xmlns='http://obexto.fr/Services'>" +
+        "<ExecuteCommand xmlns='" + service + "'>" +
                 "<userName>" + login + "</userName>" +
                 "<password>" + password + "</password>" + 
                 "<commandName>" + command + "</commandName>" +
@@ -71,7 +72,7 @@ function connexionErpMobile( login, password ) {
 					errorResponse = xhr.responseXML;
 					console.log( login + " XHR SOAP : " + xhr.responseText.toString() /* localStorage.SOAPResponse */ );
 				} else {
-					alert( 'Il semble y avoir un problème avec la connexion internet' );
+					alert( '[KO] Connexion Internet' );
 				}
                         } else { 
 				errorResponse = xhr.responseXML;
@@ -82,7 +83,8 @@ function connexionErpMobile( login, password ) {
                 alert( "XHR KO" );
         }
 
-        xhr.open( "POST", "http://developpement.obexto.fr/Services/Mobile.asmx", false );
+	// developpement.obexto.fr:8443/Services/Mobile.asmx"
+        xhr.open( "POST", "https://" + localStorage.getItem( "server" ) + "/Services/Mobile.asmx", false );
         xhr.setRequestHeader( "Content-Type", "text/xml; charset=utf-8;" ); // application/x-www-form-urlencoded; charset=utf-8;" );
         xhr.setRequestHeader( "SOAPAction", "http://obexto.fr/Services/ExecuteCommand" );
 
@@ -94,10 +96,10 @@ function connexionErpMobile( login, password ) {
 
 }
 
+
 function verifierDroitsAccesErp () {
 	console.log( 'DANS : verifierDroitsAccesErp()' );
 	console.log( "VAR : SOAPResponse ( in localStorage ) : " + window.localStorage.SOAPResponse );
-
 
 	// DROITS ACCES OK
 	if( typeof window.localStorage.SOAPResponse == "string" ){
@@ -123,11 +125,10 @@ function verifierDroitsAccesErp () {
 		window.localStorage.setItem( 'authentificationOK', "false" );
 		console.log( "Vs n'êtes pas authentifié" );
 	}
-
 }
 
-function validerFormulaireConnexion() {
 
+function validerFormulaireConnexion() {
 
 	$('#modal-connexion').modal( 'toggle' ); 
 
@@ -141,9 +142,10 @@ function validerFormulaireConnexion() {
 
 	var login = document.getElementById( 'login' ).value;
 	var password = document.getElementById( 'password' ).value;
+	var server = document.getElementById( 'server' ).value;
 
 	console.log( "ACTION : appel enregistrerUtilisateurCxInformation()" );
-	enregistrerUtilisateurCxInformation( login, password );
+	enregistrerUtilisateurCxInformation( login, password, server );
 	console.log( "ACTION : appel connexionErpMobile()" );
 	connexionErpMobile( login, password  );
 	console.log( "ACTION : verifierDroitsAccesErp()" );
@@ -153,11 +155,12 @@ function validerFormulaireConnexion() {
 }
 
 
-function enregistrerUtilisateurCxInformation( log, pw ) {
+function enregistrerUtilisateurCxInformation( log, pw, server ) {
 	console.log( "DANS : enregistrerUtilisateurCxInformation()" );
 	window.localStorage.setItem( "login", log );
 	window.localStorage.setItem( "password", pw );
-	console.log( "ACTION : initialisation localStorage ( log & pw )" );
+	window.localStorage.setItem( "server", server );
+	console.log( "ACTION : initialisation localStorage ( login, password, server )" );
 }
 
 

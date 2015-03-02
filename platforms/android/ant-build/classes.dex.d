@@ -34,6 +34,8 @@
 /var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$TrackingGZIPInputStream.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileUploadResult.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/filetransfer/FileTransfer$3.class \
+/var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/networkinformation/NetworkManager$1.class \
+/var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/networkinformation/NetworkManager.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/file/DirectoryManager.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/file/FileUtils$23.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/org/apache/cordova/file/FileUtils$9.class \
