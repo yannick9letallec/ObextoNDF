@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/authentification.js"></script>
+
+        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+        <title>Obexto Mobilité - Notes De Frais</title>
+    </head>
+    <body style="background-color: gainsboro;" onload="javascript:onLoad();">
+	<img src="./img/obexto.png" width="50%" />
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-11 col-xs-offset-1">
+				<h4> Vos Paramètres : </h4>
+				<p id="ZoneErreur" class="text-warning bg-warning" style="display: none"> </p>
+				<hr />
+			</div>
+		</div>
+	
+		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
+				<form name="parameters">
+					<div class="form-group">
+						<label for="url"> URL : </label>
+						<input type="text" id="server" class="form-control" placeholder="L'adresse du serveur Obexto et le n° de port si fourni." />
+					</div>
+					<div class="form-group">
+						<label for="login"> Login : </label>
+						<input type="text" id="login" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label for="login"> Password : </label>
+						<input type="text" id="password" class="form-control" />
+					</div>
+			</div>
+		</div>
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1">
+					<button type="button" class="btn btn-success btn-block" onclick="javascript: validerFormulaireConnexion()"> Valider </button>
+				</div> 
+				</form>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+
+function onLoad() {
+	console.log( "loaded" );
+	var log, pw, url;
+	var errorResponse = "";
+	var msgErreurCx = "";
+	var errorCxContext = "";
+
+	if( localStorage.getItem( "login" )) {
+		document.getElementById( "login" ).value = localStorage.getItem( "login" );
+	}
+	if( localStorage.getItem( "password" )) {
+		document.getElementById( "password" ).value = localStorage.getItem( "password" );
+	}
+	if( localStorage.getItem( "server" )) {
+		document.getElementById( "server" ).value = localStorage.getItem( "server" );
+	}
+}
+
+</script>
+</body>
+</html>

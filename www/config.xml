@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.obexto.mobilityapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name> Obexto Mobilité - Note de Frais </name>
+    <description>
+        Obexto Note de Frais : Outils dédiés à la gestion des notes de frais pour les personnes en mobilité.
+    </description>
+    <author email="yannick.letallec@obexto.fr" href="http://www.obexto.fr">
+        Yannick@Obexto 
+    </author>
+    <content src="index.html" />
+    <access origin="*" /> 
+    <!-- specify platform -->
+    <gap:platform name="android" />
+
+	<feature name="SplashScreen">
+		<param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+	</feature>
+	<feature name="SpeechRecognizer">
+		<param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer" />
+	</feature>
+	<feature name="Notification">
+		<param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+	</feature>
+	<feature name="App">
+		<param name="android-package" value="org.apache.cordova.App" />
+	</feature>
+	<!-- IOS -->
+	<feature name="SSLCertificateChecker">
+		<param name="ios-package" value="SSLCertificateChecker" />
+	</feature>
+	<!-- ANDROID -->
+	<feature name="SSLCertificateChecker">
+		<param name="android-package" value="SSLCertificateChecker" />
+	</feature>
+
+	<icon src="icon.png" platform="android" width="57" height="57" />
+
+    <!-- specify preferences -->
+<platform name="android">
+    <gap:splash src="splash-1.png" gap:qualifier="land-ldpi" gap:platform="android" />
+    <gap:splash src="splash-1.png" gap:qualifier="land-mdpi" gap:platform="android" />
+    <gap:splash src="splash-1.png" gap:qualifier="land-hdpi" gap:platform="android" />
+    <gap:splash src="splash-1.png" gap:qualifier="land-xhdpi" gap:platform="android" /> 
+
+    <gap:splash src="splash-2.png" gap:qualifier="port-ldpi"  gap:platform="android" />
+    <gap:splash src="splash-2.png" gap:qualifier="port-mdpi" gap:platform="android" />
+    <gap:splash src="splash-2.png" gap:qualifier="port-hdpi" gap:platform="android" />
+    <gap:splash src="splash-2.png" gap:qualifier="port-xhdpi" gap:platform="android" /> 
+
+</platform>
+    <!-- SPLASH SCREEN
+    <gap:splash src="splash-2.png"  orientation="port"/>
+    <gap:splash src="splash-1.png"  orientation="land"/>
+  -->
+
+    <!-- PLUGINS -->
+	<gap:plugin name="org.apache.cordova.camera" />
+	<gap:plugin name="org.apache.cordova.device" />
+	<gap:plugin name="org.apache.cordova.vibration" />
+	<gap:plugin name="org.apache.cordova.dialogs" />
+	<gap:plugin name="org.apache.cordova.geolocation" />
+	<gap:plugin name="org.apache.cordova.file" />
+	<gap:plugin name="org.apache.cordova.file-transfer" />
+	<gap:plugin name="org.apache.cordova.network-information" />
+	<gap:plugin name="com.synconset.cordovaHTTP" />
+	<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
+
+<platform name="android">
+	<gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />
+</platform>
+	<!-- <gap:plugin name="com.phonegap.plugins.speech"/>
+	<gap:plugin name="com.manueldeveloper.speech-recognizer" />
+	<gap:plugin name="org.apache.cordova.speech.speechrecognition"/> -->
+
+
+	<!-- PREFERENCES -->
+     <preference name="SplashScreen" value="screen" />
+     <preference name="SplashScreenDelay" value="4000" />
+    
+<!--
+    <preference name="orientation" value="default" />
+    <preference name="fullscreen" value="false" />
+    <preference name="splash-screen-duration" value="5000" />
+-->
+
+</widget>
