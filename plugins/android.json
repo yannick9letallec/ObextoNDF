@@ -43,6 +43,14 @@
                         {
                             "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CordovaHttpPlugin\"><param name=\"android-package\" value=\"com.synconset.CordovaHttpPlugin\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SSLCertificateChecker\"><param name=\"android-package\" value=\"nl.xservices.plugins.SSLCertificateChecker\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -103,6 +111,12 @@
             "PACKAGE_NAME": "com.obexto.mobilityapp"
         },
         "org.apache.cordova.network-information": {
+            "PACKAGE_NAME": "com.obexto.mobilityapp"
+        },
+        "com.synconset.cordovaHTTP": {
+            "PACKAGE_NAME": "com.obexto.mobilityapp"
+        },
+        "nl.x-services.plugins.sslcertificatechecker": {
             "PACKAGE_NAME": "com.obexto.mobilityapp"
         }
     },

@@ -31,6 +31,7 @@
 /var/www/ObextoNDF/platforms/android/assets/www/choixApp.html \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins \
 /var/www/ObextoNDF/platforms/android/assets/www/img \
+/var/www/ObextoNDF/platforms/android/assets/www/parametres.html \
 /var/www/ObextoNDF/platforms/android/assets/www/js \
 /var/www/ObextoNDF/platforms/android/assets/www/index.html \
 /var/www/ObextoNDF/platforms/android/assets/www/css/bootstrap-theme.min.css \
@@ -77,8 +78,10 @@
 /var/www/ObextoNDF/platforms/android/assets/www/css/font-awesome-4.3.0/scss/_list.scss \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.device \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer \
+/var/www/ObextoNDF/platforms/android/assets/www/plugins/nl.x-services.plugins.sslcertificatechecker \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/com.badrit.Base64 \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.camera \
+/var/www/ObextoNDF/platforms/android/assets/www/plugins/com.synconset.cordovaHTTP \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.vibration \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/com.phonegap.plugins.speech \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.dialogs \
@@ -89,6 +92,8 @@
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer/www \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer/www/FileTransfer.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file-transfer/www/FileTransferError.js \
+/var/www/ObextoNDF/platforms/android/assets/www/plugins/nl.x-services.plugins.sslcertificatechecker/www \
+/var/www/ObextoNDF/platforms/android/assets/www/plugins/nl.x-services.plugins.sslcertificatechecker/www/SSLCertificateChecker.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/com.badrit.Base64/www \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/com.badrit.Base64/www/Base64.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.camera/www \
@@ -96,6 +101,8 @@
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraConstants.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.camera/www/CameraPopoverHandle.js \
+/var/www/ObextoNDF/platforms/android/assets/www/plugins/com.synconset.cordovaHTTP/www \
+/var/www/ObextoNDF/platforms/android/assets/www/plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.vibration/www \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.vibration/www/vibration.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/com.phonegap.plugins.speech/SpeechRecognizer.js \
@@ -132,6 +139,7 @@
 /var/www/ObextoNDF/platforms/android/assets/www/img/obexto.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/screen.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/logo.png \
+/var/www/ObextoNDF/platforms/android/assets/www/js/essai_worker.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/speechLocal.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/angular.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/jquery-1.11.2.min.js \

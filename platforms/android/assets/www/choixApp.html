@@ -18,7 +18,7 @@
         <title>Obexto Mobilité - Notes De Frais</title>
 
 </head>
-<body style="background-color: gainsboro;">
+<body style="background-color: gainsboro;" onload="javascript:onLoad();">
 <img id="img" src="./img/obexto.png" width="50%" />
 
 	<div class="container">
@@ -38,9 +38,34 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<button type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNote.html' )"> NOTES DE FRAIS </button>
+				<button id="btnNDF" type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNote.html' )"> NOTES DE FRAIS </button>
+			</div>
+			<div class="col-xs-12">
+				<button type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './parametres.html' )"> PARAMETRES </button>
 			</div>
 		</div>
 	</div>
+
+<script type="text/javascript">
+function onLoad() {
+	var nb_notes_tmp = 0;
+	function getNbNDFTemp() {
+		console.log( "COMptage NDF Temporaires" );
+		for( var i = 0; i < localStorage.length; i++ ){
+			if ( localStorage.getItem( "NDF_" + i )) {
+				marque = true;
+				console.log( "nb_notes_tmp ++" );
+				nb_notes_tmp ++;
+			}
+		}
+		if( nb_notes_tmp != 0 ){
+			console.log( "NB NDF Temp : " + nb_notes_tmp );
+			var elem = document.getElementById( "btnNDF" );
+			elem.innerHTML += "<br />( " + nb_notes_tmp + " ) en attente"; 
+		}
+	}
+	getNbNDFTemp();
+}
+</script>
 </body>
 </html>

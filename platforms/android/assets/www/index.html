@@ -1,22 +1,3 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta charset="utf-8" />
@@ -29,32 +10,31 @@
         <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
         <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js//SSLCertificateChecker.js"></script>
 
         <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
         <title>Obexto Mobilité - Notes De Frais</title>
     </head>
     <body style="background-color: gainsboro;" onload="javascript:onLoad();">
 	<img src="./img/obexto.png" width="50%" />
-	<h2> Notes de Frais </h2>
+	<h4> Notes de Frais </h4>
 	<hr />
 	<div class="container">
-		<div  id="ZoneErreur" class="row">
-			<div class="alert alert-info" role="alert">
-				<p class="text-danger bg-warning" style="display: none;"> </p>
-			</div>
+		<div class="row">
+				<p id="ZoneErreur" class="text-warning bg-warning" style="display: none"> </p>
 		</div>		
 	</div>		
 	<!-- LE PANNEAU DE CONNEXION -->
 	<div class="panel panel-default" id="connexionPane" style="display: initial;">
 		<div class="panel-body">
-			<form id="authentificationErp" name="authentificationErp" enctype="application/x-www-form-urlencoded" method="post">
+			<form id="authentificationErp" name="authentificationErp" enctype="application/x-www-form-urlencoded" method="post" novalidate>
 				<div class="container">
 				<fieldset>
 					<legend> Accès Obexto Mobilité : </legend>
 					<div class="row">
 						<div class="form-group">
 							<label for="server"> URL : </label>
-							<input  id="server" type="text" class="form-control" name="server" autofocus width="100%" placeholder="L'adresse de votre serveur Obexto"/>
+							<input  id="server" type="url" class="form-control" name="server" autofocus width="100%" placeholder="L'adresse du serveur Obexto et le n° de port si fourni"/>
 						</div>
 						<div class="form-group">
 							<label for="log"> Login : </label>
@@ -95,6 +75,23 @@
 	<script type="text/javascript">
 		var errorResponse, msgErreurCx, errorCxContext;
 		
+		if( localStorage.getItem( "authentificationOK" ) == "false" ){
+			document.getElementById( 'connexionPane' ).style.display = 'initial';
+		} else if ( localStorage.getItem( "authentificationOK" ) == "true" ) {
+			document.getElementById( 'connexionPane' ).style.display = 'none';
+		}
+
+		// préremplissage des champs
+		if( localStorage.getItem( "login" )) {
+			document.getElementById( "login" ).value = localStorage.getItem( "login" );
+		}
+		if( localStorage.getItem( "password" )) {
+			document.getElementById( "password" ).value = localStorage.getItem( "password" );
+		}
+		if( localStorage.getItem( "server" )) {
+			document.getElementById( "server" ).value = localStorage.getItem( "server" );
+		}
+
 		// definition d'un marqueur de cache si inexistant
 		if( localStorage.getItem( "cached_data" ) == "undefined" ) {
 			localStorage.setItem( "cached_data", false );
@@ -108,13 +105,11 @@
 			document.addEventListener('deviceready', onDeviceReady, false );
 		
 			// Verification automatique de la connexion et adaptation au mode online / offline
-			/*
 			if ( navigator.onLine ) {
 				authentifierUtilisateur();
 			} else {
 				validerConnexionOffline();
 			}
-			*/
 		}
 
 	</script>

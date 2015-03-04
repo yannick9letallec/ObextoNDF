@@ -29,6 +29,12 @@
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
+    <feature name="CordovaHttpPlugin">
+        <param name="android-package" value="com.synconset.CordovaHttpPlugin" />
+    </feature>
+    <feature name="SSLCertificateChecker">
+        <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
+    </feature>
     <gap:splash gap:platform="android" gap:qualifier="land-ldpi" src="splash-1.png" />
     <gap:splash gap:platform="android" gap:qualifier="land-mdpi" src="splash-1.png" />
     <gap:splash gap:platform="android" gap:qualifier="land-hdpi" src="splash-1.png" />
@@ -38,12 +44,12 @@
     <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="splash-2.png" />
     <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="splash-2.png" />
     <gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />
-    <name>Obexto Note de Frais </name>
+    <name> Obexto Mobilité - Note de Frais </name>
     <description>
-        Obexto Note de Frais : Outils dédiés à la gestion des notes de frais en mobilité.
+        Obexto Note de Frais : Outils dédiés à la gestion des notes de frais pour les personnes en mobilité.
     </description>
-    <author email="yannick9letallec@gmail.com" href="http://www.obexto.fr">
-        Yannick @ Obexto 
+    <author email="yannick.letallec@obexto.fr" href="http://www.obexto.fr">
+        Yannick@Obexto 
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -57,6 +63,8 @@
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="org.apache.cordova.network-information" />
+    <gap:plugin name="com.synconset.cordovaHTTP" />
+    <gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="4000" />
 </widget>

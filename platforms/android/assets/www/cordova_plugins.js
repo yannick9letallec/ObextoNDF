@@ -101,6 +101,20 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
+        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
+        "clobbers": [
+            "plugins.CordovaHttpPlugin"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.sslcertificatechecker/www/SSLCertificateChecker.js",
+        "id": "nl.x-services.plugins.sslcertificatechecker.SSLCertificateChecker",
+        "clobbers": [
+            "window.plugins.sslCertificateChecker"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
         "id": "org.apache.cordova.file.DirectoryEntry",
         "clobbers": [
@@ -259,6 +273,8 @@ module.exports.metadata =
     "org.apache.cordova.file-transfer": "0.5.0",
     "com.badrit.Base64": "0.1.0",
     "org.apache.cordova.network-information": "0.2.15",
+    "com.synconset.cordovaHTTP": "0.1.4",
+    "nl.x-services.plugins.sslcertificatechecker": "3.4.0",
     "org.apache.cordova.file": "1.3.3"
 }
 // BOTTOM OF METADATA

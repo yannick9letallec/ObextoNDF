@@ -2,7 +2,7 @@ function selectPictureSrc () {
 	try {
 		navigator.notification.confirm( "Choix Image Source :", photoConfirmCallback, "Image Source", ["CAMERA", "GALLERY" ] ); 
 	} catch ( e ) {
-		alert( e.message );
+		// alert( e.message );
 	}
 }
 function photoConfirmCallback( buttonIndex ) {
@@ -35,6 +35,7 @@ function takePicture ( x ) {
 		  var divImg = document.getElementById( 'rcpt_post_image' );
 		  // cas initial, le div conteneur est vide
 		  // suppression des childsNodes si image déjà présente
+
 		  if( divImg.hasChildNodes() ) {
 
 			  var divChild = divImg.childNodes;
@@ -62,6 +63,6 @@ function takePicture ( x ) {
 
 	}
 	function onFail ( msg ) {
-		alert( "Impossible de lancer l'appreil photo : " + msg  );
+		// alert( "Impossible de lancer l'appreil photo : " + msg  );
 	}
 } 

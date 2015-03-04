@@ -44,8 +44,13 @@ function recupererTypeNote( ) {
 			
 					// intégration des types de note de frai
 					var sel = document.getElementById( 'type-ndf' );
-					var typeNote = xml.documentElement.getElementsByTagName('LIBL_TYPE_NOTE_FRAI');
 					var idTypeNote = xml.documentElement.getElementsByTagName('ID_TYPE_NOTE_FRAI');
+					var typeNote = xml.documentElement.getElementsByTagName('LIBL_TYPE_NOTE_FRAI');
+
+					console.log( "CACHE 1 : " + idTypeNote.length );
+					console.log( "CACHE 2 : " + typeNote.length );
+
+					reinitSelect( "type-ndf" );	
 
 					for( var i=0; i < typeNote.length; i++ ){
 						if ( i >= 0 ){
@@ -68,7 +73,7 @@ function recupererTypeNote( ) {
         xhr.open( "POST", "https://" + server + "/Services/Mobile.asmx", true ); 
         xhr.setRequestHeader( "Content-Type", "text/xml; charset=utf-8;" ); // application/x-www-form-urlencoded; charset=utf-8;" );
         xhr.setRequestHeader( "SOAPAction", "http://obexto.fr/Services/ExecuteCommand" );
-
+	
         try { xhr.send( soapMsg ); } catch( e ) { alert ( e.message ); }
 }
 
@@ -114,7 +119,7 @@ function releveGeoLocalisation ( type ) {
 					LNGT_PHOT = lngt;
 					break;
 			}
-			afficheLocalisations (); 
+			// afficheLocalisations (); 
 		}
 		function geoError ( error ) { 
 			res = "[ERREUR] :: GEOLOCALISATION ERREUR : code = " + error.code + " : message : " + error.message;
@@ -132,6 +137,7 @@ function envoyerNDF () {
 	// intégration spinning icone
 	el = document.getElementById("btnEnvoyerNote");
 	el.disabled = true;
+	
 	ajout = document.createElement( "i" );
 	ajout.id = "btn_spinning";
 	ajout.className = "fa";
@@ -269,19 +275,9 @@ function envoyerNDFSoap( soapMsg, origin ) {
 				if( origin ){
 					localStorage.removeItem( origin );
 					console.log( "Local Storage : suppression de : " + origin );
-					nb_notes_tmp--;
-					console.log( "nb_notes_tmp : " + nb_notes_tmp );
-					document.getElementById( "modal-body" ).innerHTML = "<h5> Il reste <b>" + nb_notes_tmp + " élément(s) </b> en attente de traitement </h5>"
-					// il n'y a plus de note temporaires en attente
-					if( nb_notes_tmp === 0 ){
-						console.log( "nb_notes_tmp = 0" );
-						toggleModal( "#div-envoi-ndf-attente" );
-					} else {
-						console.log( "nb_notes_tmp : " + nb_notes_tmp );
-					}
-				} else {
-					finEnvoyerNDF();
+					getNbNDFTmp( "SUP_NDF_TMP" );
 				}
+				finEnvoyerNDF();
 			};
 
 		} else {
@@ -436,6 +432,8 @@ function recupererMoyensPaiement( ) {
 					var typeMoyPaie = xml.documentElement.getElementsByTagName('LIBL_MOY_PAIE');
 					var idMoyPaie = xml.documentElement.getElementsByTagName('ID_MOY_PAIE');
 
+					reinitSelect( "moy-paie" );	
+
 					// creation du select
 					for( var i=0; i < typeMoyPaie.length; i++ ){
 						var opt = document.createElement( "option" );
@@ -462,61 +460,50 @@ function recupererMoyensPaiement( ) {
 
 // Lorsque la connexion est OK, mise en cache des listes retournées par l'ERP
 function setCacheOffline( call, deja ) {
+	// detection mise en caceh prealable
+		switch( call ) {
+		case "TYPE_NDF" :
+			console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs Type NDF du Local Storage" );
 
-	switch( call ) {
-	case "TYPE_NDF" :
-		console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs Type NDF du Local Storage" );
-		for( var i = 0; i < localStorage.length; i++ ){
-			if((  typeof localStorage.getItem( "idTypeNDF_" + i )) || ( typeof localStorage.getItem( "typeNDF_" + i ) === "string" )) {
-				console.log( "LS suppression : idTypeNDF_ & typeNDF_" + i );
-				localStorage.removeItem( "idTypeNDF_" + i );
-				localStorage.removeItem( "typeNDF_" + i );
-			} 
+			reinitLocalStorage( "TypeNDF" );
+
+			var sel, id_value, type_value;
+			// mise en cache TYPE NOTE DE FRAIS
+			sel = document.getElementById( "type-ndf");
+
+			for( var j = 0; j < sel.length; j++ ) {
+				id_value = sel[j].value; 
+				type_value = sel[j].textContent;
+				console.log( "id : " + id_value + ", type : " + type_value );
+
+				// MODE OFFLINE : MISE EN CACHE
+				localStorage.setItem( "idTypeNDF_" + j, id_value );
+				localStorage.setItem( "typeNDF_" + j, type_value );
+			}
+		break;
+		case "MOY_PAIE" :
+			console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs Moyen Paiement du Local Storage" );
+			reinitLocalStorage( "TypeMoyPaie" );
+
+			console.log( "ONLINE : Mise en cache des selects : MOY_PAIE" );
+			// mise en cache MOYEN D PAIEMENT
+			sel = document.getElementById( "moy-paie");
+
+			for( var k = 0; k < sel.length; k++ ) {
+				id_value = sel[k].value; 
+				type_value = sel[k].textContent;
+				console.log( "id : " + id_value + ", type : " + type_value );
+
+				// MODE OFFLINE : MISE EN CACHE
+				localStorage.setItem( "idMoyPaie_" + k, id_value );
+				localStorage.setItem( "typeMoyPaie_" + k, type_value );
+			}
+		break;
 		}
-		console.log( "ONLINE : Mise en cache des selects : TYPE_NDF" );
-		var sel, id_value, type_value;
-		// mise en cache TYPE NOTE DE FRAIS
-		sel = document.getElementById( "type-ndf");
-
-		for( var j = 0; j < sel.length; j++ ) {
-			id_value = sel[j].value; 
-			type_value = sel[j].textContent;
-			console.log( "id : " + id_value + ", type : " + type_value );
-
-			// MODE OFFLINE : MISE EN CACHE
-			localStorage.setItem( "idTypeNDF_" + j, id_value );
-			localStorage.setItem( "typeNDF_" + j, type_value );
-		}
-	break;
-	case "MOY_PAIE" :
-		console.log( "ONLINE : TYPE_NDF : suppression des anciennes valeurs Moyen Paiement du Local Storage" );
-		for( var i = 0; i < localStorage.length; i++ ){
-			if(( typeof localStorage.getItem( "idMoyPaie_" + i ) === "string" ) || ( typeof localStorage.getItem( "typeMoyPaie_" + i ) === "string" )) {
-				console.log( "LS suppression : idMoyPaie_ & typeMoyPaie_" + i );
-				localStorage.removeItem( "idMoyPaie_" + i );
-				localStorage.removeItem( "typeMoyPaie_" + i );
-			}			
-		}
-
-		console.log( "ONLINE : Mise en cache des selects : MOY_PAIE" );
-		// mise en cache MOYEN D PAIEMENT
-		sel = document.getElementById( "moy-paie");
-
-		for( var k = 0; k < sel.length; k++ ) {
-			id_value = sel[k].value; 
-			type_value = sel[k].textContent;
-			console.log( "id : " + id_value + ", type : " + type_value );
-
-			// MODE OFFLINE : MISE EN CACHE
-			localStorage.setItem( "idMoyPaie_" + k, id_value );
-			localStorage.setItem( "typeMoyPaie_" + k, type_value );
-		}
-	break;
-	}
 }
 function getAppDataCache( ) {
 	// mise a jour du btn ASR
-	toggleASRBtn( "INIT" );
+	// toggleASRBtn( "INIT" );
 	var sel;
 	// Cache TYPE_NDF
 	console.log( "OFFLINE : APPEL DU CACHE : SELECT TYPE_NDF FOR IHM" );
@@ -572,8 +559,7 @@ function connexionOK( ){
 	toggleASRBtn( "INIT" ); // active ou pas le bouton pour la prise de note vocale
 
 	if( verifierPresenceNDFTemporaire() ){
-		console.log( "----------------" + "\r" + "Ouverture Modale pour ( " + nb_notes_tmp + " ) NDF temporaire(s)" );
-		toggleModal( "#div-envoi-ndf-attente" );
+		// toggleCogEnvoyerNDFTmp( "START" );
 	}
 
 	localStorage.setItem( "cached_data", true );
@@ -582,6 +568,7 @@ function connexionOK( ){
 
 function reinitSelect( select_id ) {
 	// suppression des anciennes options
+	console.log( "Suppression Des Options en Cache" );
 	var sel = document.getElementById( select_id );
 	if( sel.firstChild ) {
 		while( sel.firstChild ) { 
@@ -589,8 +576,31 @@ function reinitSelect( select_id ) {
 		}
 	} 
 }
+function reinitLocalStorage( source ){
+	var id, type;
+	switch( source ){
+		case "TypeNDF" :
+			id = "idTypeNDF_";
+			type = "typeNDF_";
+		break;
+		case "TypeMoyPaie":
+			id = "idMoyPaie_";
+			type = "typeMoyPaie_";
+		break;
+	}
+	for( var i = 0; i < localStorage.length; i++ ){
+		if((  typeof localStorage.getItem( id + i )) || ( typeof localStorage.getItem( type + i ) === "string" )) {
+			console.log( "LS suppression : " + id + " " + type + " " + i );
+			localStorage.removeItem( id + i );
+			localStorage.removeItem( type + i );
+		} 
+	}
+	console.log( "ONLINE : Mise en cache des selects : " + source );
+}
+
+
 function generateNDFTemporisee() {
-	console.log( "Envoi OFFLINE ... temporisation" );
+	console.log( "[KO] Envoi OFFLINE ---> temporisation" );
 	console.log( "GENERER NOM NDF TEMPORAIRE" );
 
 	// NDF Temporaire existe ?
@@ -616,11 +626,12 @@ function generateNDFTemporisee() {
 		localStorage.setItem( "NDF_0", genererSoapMsg() );
 	}
 	
+	getNbNDFTmp( "AJ_NDF_TMP" );
 	finEnvoyerNDF();
 }
 
 
-function finEnvoyerNDF() {
+function finEnvoyerNDF( ) {
 	// reset formulaire
 	form = document.getElementById( 'formAjoutNDF' );			
 	form.reset();
@@ -638,14 +649,13 @@ function finEnvoyerNDF() {
 	if( document.getElementById( "btn_spinning" )) {
 		try { el.removeChild( el.childNodes[0] ); } catch (e) { console.log( e.message ); }
 	}
-	el.disabled = false;
+	el.disabled = true;
 
 	// desactivation du bouton ENVOYER
 	document.getElementById( "btnEnvoyerNote" ).disabled = true;
 
 	// reinitialisation des dates
 	dateFormatSQLServer( );	
-
 }
 
 
@@ -687,26 +697,20 @@ function preparerNDFTemporaires() {
 					// console.log( e.message );
 				}
 		} } }
-	document.getElementById( "modal-body" ).innerHTML = "<h5> Il reste <b>" + nb_notes_tmp + " élément(s) </b> en attente de traitement </h5>"
+	// document.getElementById( "modal-body" ).innerHTML = "<h5> Il reste <b>" + nb_notes_tmp + " élément(s) </b> en attente de traitement </h5>"
 	console.log( nb_notes_tmp + " : NDF en attente de TRAITEMENT" );
 };
 
 
 function verifierPresenceNDFTemporaire () {
-	var marque = false;
-
-	for( var i = 0; i < localStorage.length; i++ ){
-		if ( localStorage.getItem( "NDF_" + i )) {
-			marque = true;
-			console.log( "nb_notes_tmp ++" );
-			nb_notes_tmp ++;
-		}
-	}
-	if( marque ){
-		console.log( "NDF TEMPORAIRES : PRESENCE" );
-		preparerNDFTemporaires();
-	} else {	
+	// nb_notes_tmp defini par getNbNDFTemp()
+	if ( nb_notes_tmp == 0 ){
 		console.log( "NDF TEMPORAIRES : AUCUNES" );
+		marque = false;
+	} else {
+		console.log( "NDF TEMPORAIRES : PRESENCE" );
+		marque = true;
+		preparerNDFTemporaires();
 	}
 	console.log( "nb_notes_tmp : " + nb_notes_tmp );
 	return marque;
@@ -733,8 +737,22 @@ function finaliserNDFAttente( i, b64 ){
 	envoyerNDFSoap( localStorage.getItem( "NDF_" + i ), "NDF_" + i );
 }
 
-function toggleModal( mod ){
-	$( mod ).modal( 'toggle' );
+function toggleCogEnvoyerNDFTmp( etat ){
+	el = document.getElementById("rcpt_ndf_tmp");
+	switch( etat ){
+		case "START" :
+			// intégration spinning icone
+			ajout = document.createElement( "i" );
+			ajout.id = "btn_spinning";
+			ajout.className = "fa";
+			ajout.className += " fa-spinner";
+			ajout.className += " fa-spin";
+			el.insertBefore( ajout, el.firstChild );
+		break;
+		case "STOP" :
+			el.removeChild( el.firstChild );
+		break;
+	}
 }
 
 
@@ -760,4 +778,40 @@ function toggleASRBtn( etat ) {
 		btn.removeAttribute( "ontouchstart" );
 	break;
 	}
+}
+
+
+function getNbNDFTmp( etat ) {
+	var elem = document.getElementById( "rcpt_nb_ndf_tmp" );
+
+	switch( etat ){
+	case "INIT" :
+		console.log( "Comptage NDF Temporaires" );
+		for( var i = 0; i < localStorage.length; i++ ){
+			if ( localStorage.getItem( "NDF_" + i )) {
+				console.log( "nb_notes_tmp ++" );
+				nb_notes_tmp ++;
+			}
+		}
+		if( nb_notes_tmp > 0 ) { 
+			console.log( "NDF Presentes" );
+			elem.innerText = getMsgNbNDFTmp(); 
+		}
+	break;
+	case "AJ_NDF_TMP" :
+		nb_notes_tmp ++;
+		elem.innerText = getMsgNbNDFTmp();
+	break;
+	case "SUP_NDF_TMP" :
+		nb_notes_tmp --;
+		elem.innerText = getMsgNbNDFTmp();
+		if( nb_notes_tmp == 0 ){
+			elem.innerText = "";
+		}
+	break;
+	}
+}
+function getMsgNbNDFTmp() {
+	var txt = "( " + nb_notes_tmp + " ) en attente"; 
+	return txt;
 }

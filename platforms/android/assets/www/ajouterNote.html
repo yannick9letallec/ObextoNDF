@@ -49,9 +49,15 @@
 		<div class="row">
 			<div class="col-xs-10">
 				<h4> CREER NOTE DE FRAIS </h4>
+				<span id="rcpt_nb_ndf_tmp"> </span>
 			</div>
 			<div class="col-xs-2">
 				<a href="./choixApp.html" class="pull-right"> <i id="ajoutNote" class="fa fa-arrow-circle-left fa-2x" title="revenir à l'écran de choix"></i> </a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<p id="rcpt_ndf_tmp"> </p>
 			</div>
 		</div>
 		<div class="row">
@@ -105,7 +111,7 @@
 				<input id="geoLocManuel" type="checkbox" onchange="javascript:releveGeoLocalisation('ASSO');" unchecked /> <label for="geoLocManuel"> Associer ma position ... </label>
 			</div> --> 
 			<div class="col-xs-6 col-xs-offset-3">
-				<button type="button" role="button" class="btn btn-success btn-block" value="Envoyer" id="btnEnvoyerNote" onclick="javascript:envoyerNDF();" disabled> Envoyer </button>
+				<button type="button" role="button" class="btn btn-success btn-block" value="Envoyer" id="btnEnvoyerNote" onclick="javascript:envoyerNDF();" disabled> Envoyer </button> <!-- -->
 			</div>
 		</div>
 		<div class="row">
@@ -114,7 +120,7 @@
 		
 		</form>
 
-	<!-- //////////////////////////////// MODAL POUR L ENVOI DES NDF TEMPORAIRES ///////////////////////////////// -->
+	<!-- //////////////////////////////// MODAL POUR L ENVOI DES NDF TEMPORAIRES /////////////////////////////////
 	<div id="div-envoi-ndf-attente" role="dialog" class="modal fade" tabindex="-1" aria-labelledby="div-envoi-ndf-attente" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -129,7 +135,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
+	-->
 
         <script type="text/javascript" src="cordova.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="rsvp.js-3.0.17/lib/rsvp.js" charset="utf-8" defer></script>
@@ -139,39 +146,36 @@
         <script type="text/javascript" src="js/cameraLocal.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="js/speechLocal.js" charset="utf-8" defer></script>
 	<script type="text/javascript" charset="UTF-8">
-	
-		/*  	Tableau des positions Geolocalisation 
-			0 -> LAT_CREA
-			1 -> LONG_CREA
-			2 -> LAT_ASSO
-			3 -> LONG_ASSO
-			4 -> LAT_ENV
-			5 -> LONG_ENV
-		*/
 
 		// Definition des variables pour l'envoi SOAP
 		var LAT_PHOT, LNGT_PHOT, LAT_CREA, LNGT_CREA, LAT_ASSO, LNGT_ASSO, LAT_ENV, LNGT_ENV;
 		var CONT_DOC_NOTE_FRAI, NOM_FIC, REMQ_NOTE_FRAI, DTE_CREA_UTC, DTE_PREM_ENV_UTC, VAL_NOTE_FRAI, ID_TYPE_NOTE_FRAI, ID_MOY_PAIE;
 		var  path_to_img, lat, lngt, PATH_FIC; 
 		var nb_notes_tmp = 0;
+	
+		localStorage.setItem( "cached_data", false );
 
 		function onDeviceReady() {
 			alert( "Device Ready OK" );
 		}
 		function onLoad() {
+			reinitSelect( "type-ndf" );	
+			reinitSelect( "moy-paie" );	
+			reinitLocalStorage( "TypeNDF" );
+			reinitLocalStorage( "TypeMoyPaie" );
+
+			// affichage du nb de notes TMP
+			getNbNDFTmp( "INIT" );
+
 			window.document.addEventListener( "deviceready", onDeviceReady, false );
 			window.document.addEventListener( "online", function() {
 				toggleASRBtn( "OK" );
+				reinitSelect( "type-ndf" );	
+				reinitSelect( "moy-paie" );	
+				connexionOK();
 			});
 			window.document.addEventListener( "offline", function() {
 				toggleASRBtn( "KO" );
-			});
-			window.document.addEventListener( 'resume', function () {
-				isOnline( function() {
-					reinitSelect( "type-ndf" );	
-					reinitSelect( "moy-paie" );	
-					connexionOK();
-				}, getAppDataCache );
 			});
 			isOnline( connexionOK, getAppDataCache );
 
