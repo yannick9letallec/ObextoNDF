@@ -51,10 +51,11 @@
     <author email="yannick.letallec@obexto.fr" href="http://www.obexto.fr">
         Yannick@Obexto 
     </author>
+    <icon src="./www/img/icon_alpha.png" />
     <content src="index.html" />
     <access origin="*" />
-    <gap:platform name="android" />
-    <icon height="57" platform="android" src="icon.png" width="57" />
+    <preference name="phonegap-version" value="3.7.0" />
+    <preference name="orientation" value="portrait" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.vibration" />
@@ -63,7 +64,6 @@
     <gap:plugin name="org.apache.cordova.file" />
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="org.apache.cordova.network-information" />
-    <gap:plugin name="com.synconset.cordovaHTTP" />
     <gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="4000" />

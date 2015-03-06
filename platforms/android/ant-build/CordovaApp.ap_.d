@@ -21,6 +21,7 @@
 /var/www/ObextoNDF/platforms/android/ant-build/res/drawable-land-hdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/assets/_where-is-www.txt \
 /var/www/ObextoNDF/platforms/android/assets/www \
+/var/www/ObextoNDF/platforms/android/assets/www/config.xml \
 /var/www/ObextoNDF/platforms/android/assets/www/icon.png \
 /var/www/ObextoNDF/platforms/android/assets/www/css \
 /var/www/ObextoNDF/platforms/android/assets/www/ajouterNoteIK.html \
@@ -136,10 +137,13 @@
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file/www/fileSystems-roots.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file/www/Entry.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file/www/android/FileSystem.js \
+/var/www/ObextoNDF/platforms/android/assets/www/img/icon_alpha.png \
+/var/www/ObextoNDF/platforms/android/assets/www/img/icon.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/obexto.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/screen.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/logo.png \
 /var/www/ObextoNDF/platforms/android/assets/www/js/essai_worker.js \
+/var/www/ObextoNDF/platforms/android/assets/www/js/ik.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/speechLocal.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/angular.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/jquery-1.11.2.min.js \

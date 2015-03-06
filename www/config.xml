@@ -7,10 +7,19 @@
     <author email="yannick.letallec@obexto.fr" href="http://www.obexto.fr">
         Yannick@Obexto 
     </author>
+    <icon src="./www/img/icon_alpha.png" />
     <content src="index.html" />
+    
     <access origin="*" /> 
+    
+    <!-- PHONEGAP SPECIFIC OPTIONS -->
+    <preference name="phonegap-version" value="3.7.0" />
+    <preference name="orientation" value="portrait" />
+
     <!-- specify platform -->
-    <gap:platform name="android" />
+    <platform name="android" />
+    <platform name="ios" />
+    <platform name="wp8" />
 
 	<feature name="SplashScreen">
 		<param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
@@ -33,7 +42,6 @@
 		<param name="android-package" value="SSLCertificateChecker" />
 	</feature>
 
-	<icon src="icon.png" platform="android" width="57" height="57" />
 
     <!-- specify preferences -->
 <platform name="android">
@@ -62,7 +70,6 @@
 	<gap:plugin name="org.apache.cordova.file" />
 	<gap:plugin name="org.apache.cordova.file-transfer" />
 	<gap:plugin name="org.apache.cordova.network-information" />
-	<gap:plugin name="com.synconset.cordovaHTTP" />
 	<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
 
 <platform name="android">

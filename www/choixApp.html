@@ -33,7 +33,7 @@
 	<hr />
 		<div class="row">
 			<div class="col-xs-12">
-				<button type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNoteIK.html' )"> IK </button>
+				<button id="btnIK" type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNoteIK.html' )"> IK </button>
 			</div>
 		</div>
 		<div class="row">
@@ -48,23 +48,24 @@
 
 <script type="text/javascript">
 function onLoad() {
-	var nb_notes_tmp = 0;
-	function getNbNDFTemp() {
-		console.log( "COMptage NDF Temporaires" );
+	var btn, nb = 0;
+
+	function getNbNotesTmp( type, btn ) {
+		console.log( "Décompte " + type + " Temporaires" );
 		for( var i = 0; i < localStorage.length; i++ ){
-			if ( localStorage.getItem( "NDF_" + i )) {
-				marque = true;
-				console.log( "nb_notes_tmp ++" );
-				nb_notes_tmp ++;
+			if ( localStorage.getItem( type + i ) ) {
+				// marque = true;
+				nb++;
 			}
 		}
-		if( nb_notes_tmp != 0 ){
-			console.log( "NB NDF Temp : " + nb_notes_tmp );
-			var elem = document.getElementById( "btnNDF" );
-			elem.innerHTML += "<br />( " + nb_notes_tmp + " ) en attente"; 
+		if( nb != 0 ){
+			console.log( "NB " + type  + " : " + nb );
+			var elem = document.getElementById( btn );
+			elem.innerHTML += "<br />( " + nb + " ) en attente"; 
 		}
 	}
-	getNbNDFTemp();
+	getNbNotesTmp( "NDF_", "btnNDF" );
+	getNbNotesTmp( "IK_", "btnIK" );
 }
 </script>
 </body>

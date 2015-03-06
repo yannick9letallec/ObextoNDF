@@ -770,7 +770,7 @@ function toggleASRBtn( etat ) {
 	case "OK" :
 		console.log( "ASR TOGGLING OK" );
 		btn.style.opacity = "1";
-		btn.setAttribute( "ontouchstart", "javascript:testSpeech();" );
+		btn.setAttribute( "ontouchstart", "javascript:startSpeech( 'REMQ_NOTE_FRAI' );" );
 	break;
 	case "KO" :
 		console.log( "ASR TOGGLING KO" );
