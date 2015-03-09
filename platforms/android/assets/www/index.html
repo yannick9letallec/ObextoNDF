@@ -1,8 +1,11 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
+	<!-- IE10 / WP8.1 specific hack pour eviter une mauvaise prise en charge du viewport -->
         <meta name="msapplication-tap-highlight" content="no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -10,7 +13,14 @@
         <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
         <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script type="text/javascript" src="js//SSLCertificateChecker.js"></script>
+        <script type="text/javascript" src="js/modernizr.custom.41713.js"></script>
+	<script type="text/javascript">
+	<!-- solution alternative au localStorage non pris en charge sous WP8 -->
+		Modernizr.load({
+			test: Modernizr.localstorage,
+			yep: 'js/textStorage.js'
+		});
+	</script>
 
         <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
         <title>Obexto Mobilité - Notes De Frais</title>
@@ -98,7 +108,7 @@
 		}
 
 		function onDeviceReady() {
-			alert( "Device Ready OK" );
+			console.log( "[OK] Device Ready" );
 		}
 		function onLoad() {
 			// PhoneGap specific, precise le chargement de PhoneGap

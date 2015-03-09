@@ -1,17 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.obexto.mobilityapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <preference name="loglevel" value="DEBUG" />
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
-    <feature name="Device">
-        <param name="android-package" value="org.apache.cordova.device.Device" />
-    </feature>
-    <feature name="Vibration">
-        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
-    </feature>
-    <feature name="Notification">
-        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    <feature name="Base64">
+        <param name="android-package" value="com.badrit.Base64.Base64Plugin" />
     </feature>
     <feature name="SpeechRecognizer">
         <param name="android-package" value="com.phonegap.plugins.speech.SpeechRecognizer" />
@@ -20,29 +11,34 @@
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="FileTransfer">
-        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
-    </feature>
-    <feature name="Base64">
-        <param name="android-package" value="com.badrit.Base64.Base64Plugin" />
-    </feature>
-    <feature name="NetworkStatus">
-        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
-    </feature>
     <feature name="CordovaHttpPlugin">
         <param name="android-package" value="com.synconset.CordovaHttpPlugin" />
     </feature>
     <feature name="SSLCertificateChecker">
         <param name="android-package" value="nl.xservices.plugins.SSLCertificateChecker" />
     </feature>
-    <gap:splash gap:platform="android" gap:qualifier="land-ldpi" src="splash-1.png" />
-    <gap:splash gap:platform="android" gap:qualifier="land-mdpi" src="splash-1.png" />
-    <gap:splash gap:platform="android" gap:qualifier="land-hdpi" src="splash-1.png" />
-    <gap:splash gap:platform="android" gap:qualifier="land-xhdpi" src="splash-1.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="splash-2.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="splash-2.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="splash-2.png" />
-    <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="splash-2.png" />
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <splash density="port-hdpi" height="397" src="./www/img/mobility-splash.png" width="397" />
+    <splash density="port-ldpi" height="397" src="./www/img/mobility-splash.png" width="397" />
+    <splash density="port-mdpi" height="397" src="./www/img/mobility-splash.png" width="397" />
+    <splash density="port-xhdpi" height="397" src="./www/img/mobility-splash.png" width="397" />
     <gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />
     <name> Obexto Mobilité - Note de Frais </name>
     <description>
@@ -52,10 +48,12 @@
         Yannick@Obexto 
     </author>
     <icon src="./www/img/icon_alpha.png" />
+    <preference name="SplashScreenDelay" value="8000" />
     <content src="index.html" />
     <access origin="*" />
     <preference name="phonegap-version" value="3.7.0" />
-    <preference name="orientation" value="portrait" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.vibration" />
@@ -65,6 +63,4 @@
     <gap:plugin name="org.apache.cordova.file-transfer" />
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
-    <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="4000" />
 </widget>

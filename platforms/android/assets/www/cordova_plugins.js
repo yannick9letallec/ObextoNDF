@@ -1,6 +1,34 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
+        "file": "plugins/com.badrit.Base64/www/Base64.js",
+        "id": "com.badrit.Base64.Base64",
+        "clobbers": [
+            "navigator.Base64"
+        ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.speech/SpeechRecognizer.js",
+        "id": "com.phonegap.plugins.speech.SpeechRecognizer",
+        "clobbers": [
+            "plugins.speechrecognizer"
+        ]
+    },
+    {
+        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
+        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
+        "clobbers": [
+            "plugins.CordovaHttpPlugin"
+        ]
+    },
+    {
+        "file": "plugins/nl.x-services.plugins.sslcertificatechecker/www/SSLCertificateChecker.js",
+        "id": "nl.x-services.plugins.sslcertificatechecker.SSLCertificateChecker",
+        "clobbers": [
+            "window.plugins.sslCertificateChecker"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.camera/www/CameraConstants.js",
         "id": "org.apache.cordova.camera.Camera",
         "clobbers": [
@@ -29,21 +57,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
-        "clobbers": [
-            "device"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.vibration/www/vibration.js",
-        "id": "org.apache.cordova.vibration.notification",
-        "merges": [
-            "navigator.notification",
-            "navigator"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.dialogs/www/notification.js",
         "id": "org.apache.cordova.dialogs.notification",
         "merges": [
@@ -58,13 +71,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.phonegap.plugins.speech/SpeechRecognizer.js",
-        "id": "com.phonegap.plugins.speech.SpeechRecognizer",
-        "clobbers": [
-            "plugins.speechrecognizer"
-        ]
-    },
-    {
         "file": "plugins/org.apache.cordova.file-transfer/www/FileTransferError.js",
         "id": "org.apache.cordova.file-transfer.FileTransferError",
         "clobbers": [
@@ -76,13 +82,6 @@ module.exports = [
         "id": "org.apache.cordova.file-transfer.FileTransfer",
         "clobbers": [
             "window.FileTransfer"
-        ]
-    },
-    {
-        "file": "plugins/com.badrit.Base64/www/Base64.js",
-        "id": "com.badrit.Base64.Base64",
-        "clobbers": [
-            "navigator.Base64"
         ]
     },
     {
@@ -101,17 +100,18 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/com.synconset.cordovaHTTP/www/cordovaHTTP.js",
-        "id": "com.synconset.cordovaHTTP.CordovaHttpPlugin",
-        "clobbers": [
-            "plugins.CordovaHttpPlugin"
+        "file": "plugins/org.apache.cordova.vibration/www/vibration.js",
+        "id": "org.apache.cordova.vibration.notification",
+        "merges": [
+            "navigator.notification",
+            "navigator"
         ]
     },
     {
-        "file": "plugins/nl.x-services.plugins.sslcertificatechecker/www/SSLCertificateChecker.js",
-        "id": "nl.x-services.plugins.sslcertificatechecker.SSLCertificateChecker",
+        "file": "plugins/org.apache.cordova.device/www/device.js",
+        "id": "org.apache.cordova.device.device",
         "clobbers": [
-            "window.plugins.sslCertificateChecker"
+            "device"
         ]
     },
     {
@@ -264,17 +264,17 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.camera": "0.3.5",
-    "org.apache.cordova.device": "0.3.0",
-    "org.apache.cordova.vibration": "0.3.13",
-    "org.apache.cordova.dialogs": "0.3.0",
-    "org.apache.cordova.geolocation": "0.3.12",
-    "com.phonegap.plugins.speech": "1.0.0",
-    "org.apache.cordova.file-transfer": "0.5.0",
     "com.badrit.Base64": "0.1.0",
-    "org.apache.cordova.network-information": "0.2.15",
+    "com.phonegap.plugins.speech": "1.0.0",
     "com.synconset.cordovaHTTP": "0.1.4",
     "nl.x-services.plugins.sslcertificatechecker": "3.4.0",
+    "org.apache.cordova.camera": "0.3.5",
+    "org.apache.cordova.dialogs": "0.3.0",
+    "org.apache.cordova.file-transfer": "0.5.0",
+    "org.apache.cordova.geolocation": "0.3.12",
+    "org.apache.cordova.network-information": "0.2.15",
+    "org.apache.cordova.vibration": "0.3.13",
+    "org.apache.cordova.device": "0.3.0",
     "org.apache.cordova.file": "1.3.3"
 }
 // BOTTOM OF METADATA

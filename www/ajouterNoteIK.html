@@ -1,14 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 	<meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<script type="text/javascript" src="js/wp-specific.js"> </script>
 	<script type="text/javascript" src="js/jquery-1.11.2.min.js"> </script>
 	<script type="text/javascript" src="js/bootstrap.js"> </script>
 	<style type="text/css">
@@ -18,6 +20,7 @@
 		-webkit-appearance: none;
 		margin: 0;
 		}
+
 	</style>
 
         <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
@@ -84,7 +87,12 @@
 	var soapMsg;
 
 	// enregistrer les géolocations ( création / association manuelle / envoi )
+	function onDeviceReady() {
+		console.log( "[OK] : Device Ready Event" );
+		alert( "[OK] : Device Ready Event" );
+	}
 	function onLoad () {
+		window.document.addEventListener( "deviceready", onDeviceReady, false );
 		console.log( "LOADED3" );
 
 		isOnline( connexionOK, connexionKO );

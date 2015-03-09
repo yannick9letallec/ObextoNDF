@@ -30,13 +30,6 @@
 /var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/mobilityapp/R$drawable.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/mobilityapp/R$xml.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/mobilityapp/R.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/R$string.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/CordovaApp.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/BuildConfig.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/R$attr.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/R$drawable.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/R$xml.class \
-/var/www/ObextoNDF/platforms/android/ant-build/classes/com/obexto/ndf/R.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/com/phonegap/plugins/speech/LanguageDetailsChecker.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/com/phonegap/plugins/speech/SpeechRecognizer.class \
 /var/www/ObextoNDF/platforms/android/ant-build/classes/com/synconset/CordovaHttpPost.class \

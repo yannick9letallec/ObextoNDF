@@ -1,24 +1,16 @@
 /var/www/ObextoNDF/platforms/android/ant-build/CordovaApp.ap_ \
  : /var/www/ObextoNDF/platforms/android/res/drawable/icon.png \
-/var/www/ObextoNDF/platforms/android/res/drawable-land-xhdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/res/drawable-port-xhdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/res/xml/config.xml \
-/var/www/ObextoNDF/platforms/android/res/drawable-land-ldpi/screen.png \
-/var/www/ObextoNDF/platforms/android/res/drawable-land-mdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/res/drawable-port-ldpi/screen.png \
 /var/www/ObextoNDF/platforms/android/res/drawable-port-hdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/res/values/strings.xml \
 /var/www/ObextoNDF/platforms/android/res/drawable-port-mdpi/screen.png \
-/var/www/ObextoNDF/platforms/android/res/drawable-land-hdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/ant-build/res/drawable/icon.png \
-/var/www/ObextoNDF/platforms/android/ant-build/res/drawable-land-xhdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/ant-build/res/drawable-port-xhdpi/screen.png \
-/var/www/ObextoNDF/platforms/android/ant-build/res/drawable-land-ldpi/screen.png \
-/var/www/ObextoNDF/platforms/android/ant-build/res/drawable-land-mdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/ant-build/res/drawable-port-ldpi/screen.png \
 /var/www/ObextoNDF/platforms/android/ant-build/res/drawable-port-hdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/ant-build/res/drawable-port-mdpi/screen.png \
-/var/www/ObextoNDF/platforms/android/ant-build/res/drawable-land-hdpi/screen.png \
 /var/www/ObextoNDF/platforms/android/assets/_where-is-www.txt \
 /var/www/ObextoNDF/platforms/android/assets/www \
 /var/www/ObextoNDF/platforms/android/assets/www/config.xml \
@@ -138,6 +130,7 @@
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file/www/Entry.js \
 /var/www/ObextoNDF/platforms/android/assets/www/plugins/org.apache.cordova.file/www/android/FileSystem.js \
 /var/www/ObextoNDF/platforms/android/assets/www/img/icon_alpha.png \
+/var/www/ObextoNDF/platforms/android/assets/www/img/mobility-splash.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/icon.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/obexto.png \
 /var/www/ObextoNDF/platforms/android/assets/www/img/screen.png \
@@ -148,8 +141,10 @@
 /var/www/ObextoNDF/platforms/android/assets/www/js/angular.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/jquery-1.11.2.min.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/rsvp.js-3.0.17 \
+/var/www/ObextoNDF/platforms/android/assets/www/js/textStorage.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/cameraLocal.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/bootstrap.js \
+/var/www/ObextoNDF/platforms/android/assets/www/js/modernizr.custom.41713.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/connexionsERP.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/authentification.js \
 /var/www/ObextoNDF/platforms/android/assets/www/js/index.js \

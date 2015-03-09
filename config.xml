@@ -7,14 +7,24 @@
     <author email="yannick.letallec@obexto.fr" href="http://www.obexto.fr">
         Yannick@Obexto 
     </author>
+
     <icon src="./www/img/icon_alpha.png" />
+    <platform name="android">
+	    <splash src="./www/img/mobility-splash.png" density="port-hdpi" width="397" height="397" />
+	    <splash src="./www/img/mobility-splash.png" density="port-ldpi" width="397" height="397" />
+	    <splash src="./www/img/mobility-splash.png" density="port-mdpi" width="397" height="397" />
+	    <splash src="./www/img/mobility-splash.png" density="port-xhdpi" width="397" height="397" />
+    </platform>
+    <preference name="SplashScreenDelay" value="8000" />
+
     <content src="index.html" />
     
     <access origin="*" /> 
     
     <!-- PHONEGAP SPECIFIC OPTIONS -->
     <preference name="phonegap-version" value="3.7.0" />
-    <preference name="orientation" value="portrait" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="Orientation" value="portrait" />
 
     <!-- specify platform -->
     <platform name="android" />
@@ -43,25 +53,23 @@
 	</feature>
 
 
-    <!-- specify preferences -->
-<platform name="android">
-    <gap:splash src="splash-1.png" gap:qualifier="land-ldpi" gap:platform="android" />
-    <gap:splash src="splash-1.png" gap:qualifier="land-mdpi" gap:platform="android" />
-    <gap:splash src="splash-1.png" gap:qualifier="land-hdpi" gap:platform="android" />
-    <gap:splash src="splash-1.png" gap:qualifier="land-xhdpi" gap:platform="android" /> 
+	<!-- specify preferences
+	<platform name="android">
+	    <gap:splash src="splash-1.png" gap:qualifier="land-ldpi" gap:platform="android" />
+	    <gap:splash src="splash-1.png" gap:qualifier="land-mdpi" gap:platform="android" />
+	    <gap:splash src="splash-1.png" gap:qualifier="land-hdpi" gap:platform="android" />
+	    <gap:splash src="splash-1.png" gap:qualifier="land-xhdpi" gap:platform="android" /> 
 
-    <gap:splash src="splash-2.png" gap:qualifier="port-ldpi"  gap:platform="android" />
-    <gap:splash src="splash-2.png" gap:qualifier="port-mdpi" gap:platform="android" />
-    <gap:splash src="splash-2.png" gap:qualifier="port-hdpi" gap:platform="android" />
-    <gap:splash src="splash-2.png" gap:qualifier="port-xhdpi" gap:platform="android" /> 
-
-</platform>
-    <!-- SPLASH SCREEN
-    <gap:splash src="splash-2.png"  orientation="port"/>
-    <gap:splash src="splash-1.png"  orientation="land"/>
-  -->
+	    <gap:splash src="splash-2.png" gap:qualifier="port-ldpi"  gap:platform="android" />
+	    <gap:splash src="splash-2.png" gap:qualifier="port-mdpi" gap:platform="android" />
+	    <gap:splash src="splash-2.png" gap:qualifier="port-hdpi" gap:platform="android" />
+	    <gap:splash src="splash-2.png" gap:qualifier="port-xhdpi" gap:platform="android" /> 
+	</platform>  -->
 
     <!-- PLUGINS -->
+	<platform name="android">
+		<gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />
+	</platform>
 	<gap:plugin name="org.apache.cordova.camera" />
 	<gap:plugin name="org.apache.cordova.device" />
 	<gap:plugin name="org.apache.cordova.vibration" />
@@ -71,23 +79,5 @@
 	<gap:plugin name="org.apache.cordova.file-transfer" />
 	<gap:plugin name="org.apache.cordova.network-information" />
 	<gap:plugin name="nl.x-services.plugins.sslcertificatechecker" />
-
-<platform name="android">
-	<gap:plugin name="com.phonegap.plugins.speech.SpeechRecognizer" version="0.0.1" />
-</platform>
-	<!-- <gap:plugin name="com.phonegap.plugins.speech"/>
-	<gap:plugin name="com.manueldeveloper.speech-recognizer" />
-	<gap:plugin name="org.apache.cordova.speech.speechrecognition"/> -->
-
-
-	<!-- PREFERENCES -->
-     <preference name="SplashScreen" value="screen" />
-     <preference name="SplashScreenDelay" value="4000" />
-    
-<!--
-    <preference name="orientation" value="default" />
-    <preference name="fullscreen" value="false" />
-    <preference name="splash-screen-duration" value="5000" />
--->
 
 </widget>
