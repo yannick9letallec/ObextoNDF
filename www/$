@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> 
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<!-- !important à garder pour debug sous IE / Weinre -->
+	<script type="text/javascript" src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js"> </script>
+	<script type="text/javascript" src="js/bootstrap.js"> </script>
+	<script type="text/javascript" src="js/jquery-blink/jquery-blink.js"> </script>
+	<style type="text/css">
+		/* specific css to hide spinner elements of input type = number */
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+		}
+	</style>
+
+        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+        <title>Obexto Mobilité - Notes De Frais</title>
+    </head>
+    <body style="background-color: gainsboro;" onload="javascript:onLoad();">
+	<div class="container">
+		<div class="row">
+			<img id="img" src="./img/obexto.png" class="img-responsive" alt="logo-de-la-societe-obexto" />
+		</div>
+	</div>
+	<form id="formAjoutNDF">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-10">
+				<h4> CREER NOTE DE FRAIS </h4>
+				<span id="rcpt_nb_ndf_tmp"> </span>
+			</div>
+			<div class="col-xs-2">
+				<a href="./choixApp.html" class="pull-right"> <i id="ajoutNote" class="fa fa-arrow-circle-left fa-2x" title="revenir à l'écran de choix"></i> </a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<p id="rcpt_ndf_tmp"> </p>
+			</div>
+		</div>
+		<div class="row">
+			<div id="rcpt_post_image" class="col-xs-2"> </div>
+			<div class="col-xs-4 col-xs-offset-6">
+				<button type="button" role="button" class="btn btn-default btn-block" onclick="javascript:selectPictureSrc();"><i class="fa fa-camera"></i> Photo </button>
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<label for="type-ndf"> Type Note de Frais </label>
+			</div>
+			<div class="col-xs-8">
+				<select id="type-ndf" class="form-control" name="type-ndf" onchange="javascript:getIdTypeNDF();">
+				</select>
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<label for="moy-paie"> Moyen de Paiement </label>
+			</div>
+			<div class="col-xs-8">
+				<select id="moy-paie" class="form-control" name="moy-paie" onchange="javascript:getIdMoyPaiement();">
+				</select>
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-4">
+				<label for="VAL_NOTE_FRAI"> Montant TTC ( € ) </label>
+			 </div>
+			<div class="col-xs-8">
+				<input id="VAL_NOTE_FRAI" type="number" class="form-control" min="0" step="any" placeholder="00.00" onkeypress="return isMontantValid( event );checkDecimal( this );" />
+			 </div>
+		</div>
+		<div class="row">
+			<div class="col-xs-5">
+				<label for="REMQ_NOTE_FRAI"> Remarque : </label> <br />
+			</div>
+			<div class="col-xs-2 col-xs-offset-5">
+				<i id="micro" class="pull-right fa fa-2x fa-microphone"></i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<textarea id="REMQ_NOTE_FRAI" class="form-control" placeholder="Saisissez votre remarque"></textarea>
+			</div>
+		</div>
+		<div class="row">
+			<!-- //////////////// GEOLACALISATION MANUELLE /////////////////// -->
+			<!-- <div class="col-xs-10 col-xs-offset-2">
+				<input id="geoLocManuel" type="checkbox" onchange="javascript:releveGeoLocalisation('ASSO');" unchecked /> <label for="geoLocManuel"> Associer ma position ... </label>
+			</div> --> 
+			<div class="col-xs-6 col-xs-offset-1">
+				<button type="button" class="btn btn-default btn-block" onclick="javascript: annulerNDF()"> Annuler </button>
+			</div>
+			<div class="col-xs-4">
+				<button type="button" role="button" class="btn btn-success btn-block" value="Envoyer" id="btnEnvoyerNote" onclick="javascript:envoyerNDF();" disabled> Envoyer </button> <!-- -->
+			</div>
+		</div>
+		<div class="row">
+			<div id="ajaxReceiver"> </div>
+		</div>
+	</div>
+	</form>
+		
+	<!-- //////////////////////////////// MODAL POUR L ENVOI DES NDF TEMPORAIRES /////////////////////////////////
+	<div id="div-envoi-ndf-attente" role="dialog" class="modal fade" tabindex="-1" aria-labelledby="div-envoi-ndf-attente" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title"> Traitement Des Notes de Frais Temporisé(es) <h4>
+				</div>
+				<div id="modal-body" class="modal-body">
+					<p> Merci de patienter pendant l'envoi des notes de frais en attentes ... </p>
+					<p id="nb-notes-en-attente"> </p>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</div>
+	</div> 
+	-->
+
+        <script type="text/javascript" src="cordova.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/angular.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/index.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/connexionsERP.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/cameraLocal.js" charset="utf-8" defer></script>
+        <script type="text/javascript" src="js/speechLocal.js" charset="utf-8" defer></script>
+	<script type="text/javascript">
+
+		// Definition des variables pour l'envoi SOAP
+		var LAT_PHOT, LNGT_PHOT, LAT_CREA, LNGT_CREA, LAT_ASSO, LNGT_ASSO, LAT_ENV, LNGT_ENV;
+		var CONT_DOC_NOTE_FRAI, NOM_FIC, REMQ_NOTE_FRAI, DTE_CREA_UTC, DTE_PREM_ENV_UTC, VAL_NOTE_FRAI, ID_TYPE_NOTE_FRAI, ID_MOY_PAIE;
+		var  path_to_img, lat, lngt, PATH_FIC; 
+		var nb_notes_tmp = 0;
+	
+		localStorage.setItem( "cached_data", false );
+
+		function onDeviceReady() {
+			alert( "Device Ready OK" );
+		}
+		function onLoad() {
+			reinitSelect( "type-ndf" );	
+			reinitSelect( "moy-paie" );	
+			reinitLocalStorage( "TypeNDF" );
+			reinitLocalStorage( "TypeMoyPaie" );
+
+			// affichage du nb de notes TMP
+			getNbNDFTmp( "INIT" );
+
+			window.document.addEventListener( "deviceready", onDeviceReady, false );
+			window.document.addEventListener( "online", function() {
+				toggleASRBtn( "OK" );
+				reinitSelect( "type-ndf" );	
+				reinitSelect( "moy-paie" );	
+				connexionOK();
+			});
+			window.document.addEventListener( "offline", function() {
+				toggleASRBtn( "KO" );
+			});
+			isOnline( connexionOK, getAppDataCache );
+
+			// création de la date de création @DTE_CREA_UTC
+			dateFormatSQLServer ( "CREA" );
+
+			// relevé Geolocalisation
+			releveGeoLocalisation("CREA");
+		}
+		function isMontantValid( evt ){
+		         var charCode = (evt.which) ? evt.which : evt.keyCode;
+			// console.log( "CHAR CODE : " + charCode );
+		         if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) return false;
+
+			 return true;
+		}
+		function checkDecimal( this ){
+			alert( this );
+		}
+		function annulerNDF() {
+			window.location.assign ( "./choixApp.html" );
+		}
+
+	</script>
+    </body>
+</html>

@@ -8,6 +8,10 @@
         Yannick@Obexto 
     </author>
 
+    <!-- SPLASH & ICONS //////////////////////////////////////////////////////////////////////////// -->
+    <platform name="wp8">
+	    <icon src="./www/img/icon_alpha.png" width="57" height="57" />
+     </platform>
     <icon src="./www/img/icon_alpha.png" />
     <platform name="android">
 	    <splash src="./www/img/mobility-splash.png" density="port-hdpi" width="397" height="397" />
@@ -15,7 +19,10 @@
 	    <splash src="./www/img/mobility-splash.png" density="port-mdpi" width="397" height="397" />
 	    <splash src="./www/img/mobility-splash.png" density="port-xhdpi" width="397" height="397" />
     </platform>
-    <preference name="SplashScreenDelay" value="8000" />
+    <platform name="wp8">
+	    <splash src="./www/img/mobility-splash.png" width="397" height="397" />
+    </platform>
+    <preference name="SplashScreenDelay" value="5000" />
 
     <content src="index.html" />
     

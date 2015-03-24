@@ -1,21 +1,14 @@
 // la procédure d'authentification concrète
 function authentifierUtilisateur () {
 
-	// $('#modal-connexion').modal( 'toggle' ); 
-
 	// on vérifie les droits sur le serveur si OK, autoconnect et accès page accueil sinon on affiche l'écran de connexion
 	console.log( 'DANS : authentifierUtilisateur()' );
 	if( utilisateurDejaEnregistre() ){
-		document.getElementById( 'connexionPane' ).style.display = 'none';
-		// console.log( 'utilisateurDejaEnregistre() -> OUI -> masquage du connexion Pane, appel de la procédure de connexion ,et vérification des droits' );
-		// connexionErpMobile( window.localStorage.getItem( 'login' ), window.localStorage.getItem( 'password' ), window.localStorage.getItem( 'server' ) );
-		// verifierDroitsAccesErp();
+		document.getElementById( 'connexionPane' ).style.cssText = "display: initial;";
 		window.location.assign ( "./choixApp.html" );
-		// document.getElementById( 'connexionPane' ).style.display = 'initial';
 	} else { 	
-		console.log( 'utilisateurDejaEnregistre() -> NON -> affichage du connexion Pane' );
-		document.getElementById( 'connexionPane' ).style.display = 'initial';
-		// $('#modal-connexion').modal( 'toggle' ); 
+		console.log( '	utilisateurDejaEnregistre() -> NON -> affichage du connexion Pane' );
+		document.getElementById( 'connexionPane' ).style.cssText = "display: initial;";
 	}
 }
 
@@ -38,7 +31,8 @@ function utilisateurDejaEnregistre (){
 
 // vérification des droits via le MCD mobile
 function connexionErpMobile( login, password, server ) {
-	console.log( "log : " + login + " , pw : " + password + " , server : " + server );
+	console.log( "DANS : connexionErpMobile" );
+	console.log( login + " " + password + " " + server )
 
 	var to = "";
 	var command = "mobile.TESTER_CONNEXION";
@@ -54,33 +48,32 @@ function connexionErpMobile( login, password, server ) {
         "</soap:Body>" +
 "</soap:Envelope>";
 
-	console.log( "SOAP MSG : " + soapMsg );
 
         // FEATURE DETECTION & ADAPTATION NAVIGATEUR
-        if( window.XMLHttpRequest ) {
-                var xhr = new XMLHttpRequest();
-        } else if ( window.ActiveXObject ) {
-                var xhr = new ActiveXObject( "Microsoft.XMLHTTP" );
-        } else {
-                // Ajax not supported -> polyfill
-        }
+	try {
+		var xhr = new XMLHttpRequest();
+	}  catch ( e ) {
+		console.log( "[KO] Création XHR impossible" );
+		return;
+	}
 
-	if ( window.XMLHttpRequest ) {
                 xhr.onreadystatechange = function () {
                         if ( xhr.readyState == 4 ) {
                                 if ( xhr.status == 200 ) {
 					window.localStorage.setItem( "SOAPResponse", xhr.responseText.toString() );
-					console.log( login + " XHR SOAP : " + xhr.responseText.toString() /* localStorage.SOAPResponse */ );
 				} else {
-					console.log( '[KO] Connexion Internet' );
+					console.log( '	[KO] Connexion Internet' );
+					/* document.getElementById( "ZoneErreur" ).style.cssText = "display: initial;";
+					document.getElementById( "ZoneErreur" ).innerText = "Adresse Réseau Inatteignable.";
+					setTimeout( function () { document.getElementById( "ZoneErreur" ).style.cssText = "display: none;" }, 3000 ); */
 				}
 				errorResponse = xhr.responseXML;
                         } else { 
-				// alert( xhr.status + "  XHR SOAP : " + xhr.responseText  /* localStorage.SOAPResponse */ ); 
+				console.log( "	" + xhr.status + "  XHR SOAP : " + xhr.responseText  /* localStorage.SOAPResponse */ ); 
 			}
                 }
 		xhr.onloadstart = function () {
-			to = setTimeout( function() { verifierDroitsAccesErp(); }, 8000 );
+			to = setTimeout( function() { verifierDroitsAccesErp(); }, 5000 );
 			console.log( "loadstart" );
 		}
 		xhr.onloadend = function () {
@@ -88,125 +81,109 @@ function connexionErpMobile( login, password, server ) {
 			clearTimeout( to );
 			console.log( "loadend" );
 		}
-        } else {
-                console.log( "XHR KO" );
-        }
-
 
 	// developpement.obexto.fr:8443
 	try{
-		xhr.open( "POST", "https://" + localStorage.getItem( "server" ) + "/Services/Mobile.asmx" );
+		xhr.open( "POST", "https://" + server + "/Services/Mobile.asmx" );
 		xhr.setRequestHeader( "Content-Type", "text/xml; charset=utf-8;" ); // application/x-www-form-urlencoded; charset=utf-8;" );
 		xhr.setRequestHeader( "SOAPAction", "http://obexto.fr/Services/ExecuteCommand" );
 	} catch( e ) {
-		console.log( e.message );
+		console.log( "	" + e.message );
 	}
-
-
         try { 
 		xhr.send( soapMsg );
 	 } catch( e ) { 
-		console.log( "Message erreur XHR : " + e.message ); 
+		console.log( "	" + "Message erreur XHR : " + e.message ); 
 	}
 }
 
 
 function verifierDroitsAccesErp () {
 	console.log( 'DANS : verifierDroitsAccesErp()' );
-	console.log( "VAR : SOAPResponse ( in localStorage ) : " + window.localStorage.SOAPResponse );
+	var msg;
 
 	// DROITS ACCES OK
 	if( typeof window.localStorage.SOAPResponse == "string" ){
-		var res = window.localStorage.SOAPResponse.search( 'OK');
-		if( res == -1 ){
-			window.localStorage.setItem( 'authentificationOK', "false" );
+		var res = window.localStorage.SOAPResponse.search( 'ErrorContext');
+		if( res != -1 ){
+			// erreur detectée
+			window.localStorage.setItem( "authentificationOK", "false" );
 		
-			// récupération du msg d'erreur de conexion
-			try {
-			} catch ( e ){
-				console.log( e.message );
-			}
-				errorCxContext = errorResponse.getElementsByTagName( 'ErrorContext' )[0].childNodes[0].textContent;
-				errorCxMsg = errorResponse.getElementsByTagName( 'ErrorMessage' )[0].childNodes[0].textContent;
+			errorCxContext = errorResponse.getElementsByTagName( 'ErrorContext' )[0].childNodes[0].textContent;
+			errorCxMsg = errorResponse.getElementsByTagName( 'ErrorMessage' )[0].childNodes[0].textContent;
+			console.log( errorCxContext + " : " + errorCxMsg );
 
 			// intégration IHM
-			document.getElementById('ZoneErreur').style.display = 'initial';
-			document.getElementById('ZoneErreur').innerHTML = errorCxContext + " : " + errorCxMsg;
-			window.setTimeout( function () { document.getElementById('ZoneErreur').style.display = 'none' }, 3000 );
-			console.log( "ACCES KO" ); // réafficher le formulaire de connexion
+			document.getElementById( "ZoneErreur" ).style.cssText = "display: initial;";
+			document.getElementById( "ZoneErreur" ).innerText = "Erreur : " + errorCxContext + ", " + errorCxMsg;
+			setTimeout( function () { document.getElementById( "ZoneErreur" ).style.cssText = "display: none;" }, 3000 ); 
 		} else {
-			console.log( "ACCES OK" ); // recuperation des droits liés aux types de notes
-			window.localStorage.setItem( 'authentificationOK', "true" );
+			window.localStorage.setItem( "authentificationOK", "true" );
 			
-			// information de confirmation
-			document.getElementById( "ZoneErreur" ).style.display = "initial";
-			document.getElementById( "ZoneErreur" ).innerText = "Mise à jour réussie.";
+			document.getElementById( "ZoneErreur" ).style.cssText = "display: initial;";
+			document.getElementById( "ZoneErreur" ).innerText = "Connexion Réussie.";
 			window.setTimeout( function() { window.location.assign ( "./choixApp.html" )}, 2000 );
 		}
-	} else { // DROITS ACCES RESEAU KO + notification interface
-		window.localStorage.setItem( 'authentificationOK', "false" );
-		console.log( "Vs n'êtes pas authentifié" );
-		document.getElementById( "ZoneErreur" ).style.display = "initial";
+	// DROIT ACCES KO
+	} else { 
+		window.localStorage.setItem( "authentificationOK", "false" );
+		console.log( "	Vs n'êtes pas authentifié" );
+		document.getElementById( "ZoneErreur" ).style.cssText = "display: initial;";
 		document.getElementById( "ZoneErreur" ).innerText = "Adresse Réseau Inatteignable.";
-		setTimeout( function () { document.getElementById( "ZoneErreur" ).style.display = "none" }, 3000 ); 
+		setTimeout( function () { document.getElementById( "ZoneErreur" ).style.cssText = "display: none;" }, 3000 ); 
 	}
 }
 
 
 function validerFormulaireConnexion() {
+	console.log( "DANS : validerFormulaireConnexion()" );
+
 	var login = document.getElementById( 'login' ).value;
 	var password = document.getElementById( 'password' ).value;
 	var server = document.getElementById( 'server' ).value;
 
 	if( server === "" || login === "" || password === "" ) {
-		document.getElementById( "ZoneErreur" ).style.display = "initial";
+		console.log( "	Présence de champs non remplis" );
+
 		document.getElementById( "ZoneErreur" ).innerText = "Merci de remplir tous les champs.";
-		setTimeout( function () { document.getElementById( "ZoneErreur" ).style.display = "none" }, 3000 ); 
+		document.getElementById( "ZoneErreur" ).style.cssText = "display: initial;";
+		setTimeout( function () { document.getElementById( "ZoneErreur" ).style.cssText = "display: none;" }, 3000 ); 
 	} else {
-		// $('#modal-connexion').modal( 'toggle' ); 
-
-		console.log( "DANS : validerFormulaireConnexion()" );
-		// affichage de la fenetre : connexion en cours
-		// document.getElementById( 'modal-connexion' ).style.display = "initial";
-
-		console.log( "ACTION : reinitialisation du localStorage" );
-		
+		console.log( "	Reinitialisation du localStorage" );
 		window.localStorage.clear();
 
 		var login = document.getElementById( 'login' ).value;
 		var password = document.getElementById( 'password' ).value;
 		var server = document.getElementById( 'server' ).value;
 
-		console.log( "ACTION : appel enregistrerUtilisateurCxInformation()" );
+		console.log( "	Appel enregistrerUtilisateurCxInformation()" );
 		enregistrerUtilisateurCxInformation( login, password, server );
-		console.log( "ACTION : appel connexionErpMobile()" );
+		
+		console.log( "	Appel connexionErpMobile()" );
 		connexionErpMobile( login, password, server  );
-		console.log( "ACTION : verifierDroitsAccesErp()" );
-		// verifierDroitsAccesErp();
 
-		// $('#modal-connexion').modal( 'toggle' ); 
 	}
 }
 
 
 function enregistrerUtilisateurCxInformation( log, pw, server ) {
 	console.log( "DANS : enregistrerUtilisateurCxInformation()" );
+	console.log( "	Initialisation localStorage ( login, password, server ) " + log + " / " + pw + " / " + server );
 	window.localStorage.setItem( "login", log );
 	window.localStorage.setItem( "password", pw );
 	window.localStorage.setItem( "server", server );
-	console.log( "ACTION : initialisation localStorage ( login, password, server )" );
 }
 
 
 function validerConnexionOffline() {
-	if( window.localStorage.getItem( "authentificationOK" ) == "true") {
+	if( window.localStorage.getItem( "authentificationOK" ) == "true" ) {
 		// connexion autorisée
 		window.location.assign( "./choixApp.html" );
 	} else {
 		// connexion refusée
-		document.getElementById( 'connexionPane' ).style.display = 'initial';
-		document.getElementById( 'ZoneErreur' ).innerHTML = "Aucune connexion internet détectée, <br /> \
-		Pour démarrer, connectez votre appareil. <br > ";
+		document.getElementById( 'connexionPane' ).style.cssText = "display: initial;";
+		document.getElementById( 'ZoneErreur' ).innerText = "Aucune connexion internet détectée.";
+		setTimeout( function () { document.getElementById( "ZoneErreur" ).style.cssText = "display: none;" }, 3000 ); 
 	}
 }
 

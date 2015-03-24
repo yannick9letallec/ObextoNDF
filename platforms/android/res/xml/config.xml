@@ -48,7 +48,7 @@
         Yannick@Obexto 
     </author>
     <icon src="./www/img/icon_alpha.png" />
-    <preference name="SplashScreenDelay" value="8000" />
+    <preference name="SplashScreenDelay" value="5000" />
     <content src="index.html" />
     <access origin="*" />
     <preference name="phonegap-version" value="3.7.0" />

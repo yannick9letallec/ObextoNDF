@@ -3,26 +3,32 @@
 <head>
 	<meta charset="utf-8">
         <meta name="format-detection" content="telephone=no" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> 
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
-        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
-	<script>
-	</script>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<!-- !important à garder pour debug sous IE / Weinre -->
+	<!--[if IE]>
+		<meta name="X-UA-COMPATIBLE" content="IE=10" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">	
+		<script type="text/javascript" src="http://172.16.0.24:8080/target/target-script-min.js#anonymous"></script>
+		<script type="text/javascript" src="js/wp-specific.js"> </script> 
+	<![endif]-->
 
-        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+
         <title>Obexto Mobilité - Notes De Frais</title>
 
 </head>
 <body style="background-color: gainsboro;" onload="javascript:onLoad();">
-<img id="img" src="./img/obexto.png" width="50%" />
-
 	<div class="container">
+		<div class="row">
+			<img id="img" class="img-responsive" src="./img/obexto.png" alt="logo-de-la-societe-obexto" />
+		</div>
+	</div>
+	<div class="container">
+		<hr />
 		<div class="row">
 			<div class="col-xs-10">
 				<h4> Notes de Frais </h4>
@@ -31,27 +37,31 @@
 				<a href="./index.html"><i id="ajoutNote" class="fa fa-arrow-circle-left fa-2x" title="revenir à l'accueil"></i></a>
 			</div>
 		</div>
-	<hr />
 		<div class="row">
 			<div class="col-xs-12">
-				<button id="btnIK" type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNoteIK.html' )"> IK </button>
+				<button id="btnNDF" type="button" class="btn btn-success btn-block" onclick="window.location.assign( './ajouterNote.html' )"> NOTES DE FRAIS </button>
+			</div>
+			<div class="col-xs-12">
+				<button id="btnIK" type="button" class="btn btn-success btn-block" onclick="window.location.assign( './ajouterNoteIK.html' )"> IK </button>
+			</div>
+			<div class="col-xs-12">
+				<button id="btnNDF" type="button" class="btn btn-success btn-block" onclick="/* window.location.assign( './ajouterNote.html' ) */"> ACHATS </button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<button id="btnNDF" type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './ajouterNote.html' )"> NOTES DE FRAIS </button>
-			</div>
-			<div class="col-xs-12">
-				<button type="button" class="btn btn-success btn-block" width="100%" onclick="window.location.assign( './parametres.html' )"> PARAMETRES </button>
+				<button type="button" class="btn btn-success btn-block" onclick="window.location.assign( './parametres.html' )"> PARAMETRES </button>
 			</div>
 		</div>
 	</div>
 
 <script type="text/javascript">
-function onLoad() {
-	var btn, nb = 0;
+localStorage.setItem( "page", "choixApp" );
 
+function onLoad() {
 	function getNbNotesTmp( type, btn ) {
+		var nb = 0;
+
 		console.log( "Décompte " + type + " Temporaires" );
 		for( var i = 0; i < localStorage.length; i++ ){
 			if ( localStorage.getItem( type + i ) ) {

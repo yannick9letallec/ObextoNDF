@@ -1,0 +1,26 @@
+
+/var/www/ObextoNDF/www/ajouterNoteIK.htmlInfo: The Content-Type was “text/html”. Using the HTML parser.
+Info: Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.
+Warning: The “date” input type is not supported in all browsers. Please be sure to test, and consider using a polyfill.
+From line 67, column 4; to line 67, column 63
+The document validates according to the specified schema(s) and to additional constraints checked by the validator.
+
+/var/www/ObextoNDF/www/ajouterNote.htmlInfo: The Content-Type was “text/html”. Using the HTML parser.
+Info: Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.
+The document validates according to the specified schema(s) and to additional constraints checked by the validator.
+
+/var/www/ObextoNDF/www/choixApp.htmlInfo: The Content-Type was “text/html”. Using the HTML parser.
+Info: Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.
+Error: Duplicate ID “btnNDF”.
+From line 48, column 5; to line 48, column 135
+Warning: The first occurrence of ID “btnNDF” was here.
+From line 42, column 5; to line 42, column 129
+There were errors.
+
+/var/www/ObextoNDF/www/index.htmlInfo: The Content-Type was “text/html”. Using the HTML parser.
+Info: Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.
+The document validates according to the specified schema(s) and to additional constraints checked by the validator.
+
+/var/www/ObextoNDF/www/parametres.htmlInfo: The Content-Type was “text/html”. Using the HTML parser.
+Info: Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.
+The document validates according to the specified schema(s) and to additional constraints checked by the validator.

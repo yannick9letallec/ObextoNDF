@@ -1,37 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-	<!-- IE10 / WP8.1 specific hack pour eviter une mauvaise prise en charge du viewport -->
         <meta name="msapplication-tap-highlight" content="no" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> 
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
-        <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
-        <script type="text/javascript" src="js/modernizr.custom.41713.js"></script>
-	<script type="text/javascript">
-	<!-- solution alternative au localStorage non pris en charge sous WP8 -->
-		Modernizr.load({
-			test: Modernizr.localstorage,
-			yep: 'js/textStorage.js'
-		});
-	</script>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<!-- !important à garder pour debug sous IE / Weinre -->
+	<!--[if IE]>
+		<meta name="X-UA-COMPATIBLE" content="IE=10" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">	
+		<script type="text/javascript" src="http://172.16.0.24:8080/target/target-script-min.js#anonymous"></script>
+		<script type="text/javascript" src="js/wp-specific.js"> </script> 
+	<![endif]-->
 
-        <!-- <link rel="stylesheet" type="text/css" href="css/index.css" /> -->
+
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> 
         <title>Obexto Mobilité - Notes De Frais</title>
     </head>
     <body style="background-color: gainsboro;" onload="javascript:onLoad();">
-	<img src="./img/obexto.png" width="50%" />
-	<h4> Notes de Frais </h4>
+	<div class="container">
+		<div class="row">
+			<img src="./img/obexto.png" class="img-responsive" alt="logo-de-la-societe-obexto" />
+			<h4> Notes de Frais </h4>
+		</div>
+	</div>
 	<hr />
 	<div class="container">
 		<div class="row">
+			<div class="col-xs-10 col-xs-offset-1">
 				<p id="ZoneErreur" class="text-warning bg-warning" style="display: none"> </p>
+			</div>
 		</div>		
 	</div>		
 	<!-- LE PANNEAU DE CONNEXION -->
@@ -44,15 +46,15 @@
 					<div class="row">
 						<div class="form-group">
 							<label for="server"> URL : </label>
-							<input  id="server" type="url" class="form-control" name="server" autofocus width="100%" placeholder="L'adresse du serveur Obexto et le n° de port si fourni"/>
+							<input  id="server" type="url" class="form-control" name="server" placeholder="L'adresse du serveur Obexto et le n° de port si fourni" />
 						</div>
 						<div class="form-group">
-							<label for="log"> Login : </label>
-							<input type="text" id="login"  class="form-control" name="login" autofocus width="100%" placeholder="Votre Identifiant Obexto"/>
+							<label for="login"> Login : </label>
+							<input type="text" id="login"  class="form-control" name="login" autofocus placeholder="Votre Identifiant Obexto"/>
 						</div>
 						<div class="form-group">
-							<label for="pw"> Mot De Passe : </label>
-							<input type="password" id="password" class="form-control" name="password" width="100%" placeholder="Votre Mot de Passe Obexto"/>
+							<label for="password"> Mot De Passe : </label>
+							<input type="password" id="password" class="form-control" name="password" placeholder="Votre Mot de Passe Obexto"/>
 						</div>
 					</div>
 					<div class="row pull-right">
@@ -66,25 +68,15 @@
 		</div>
 	</div>
 
-	<div id="modal-connexion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalConnexion" aria-hidden="true">
-		<div class="modal-dialog">
-		<div class="modal-content">
-			<!-- <div class="modal-header">
-				<button type="button" class="close" data-dissmiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span> </button> 
-				<h4 class="modal-tite" id="modalConnexion"> Obexto ERP Mobile</h4>
-			</div> -->
-			<div class="modal-body">
-				<i class="fa fa-circle-o-notch fa-spin"></i> Connexion en cours ... 
-			</div>
-		</div>
-		</div>
-	</div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/authentification.js"></script>
 	<script type="text/javascript">
+		document.addEventListener('deviceready', onDeviceReady, false );
 		var errorResponse, msgErreurCx, errorCxContext;
 		
+		localStorage.setItem( "page", "index" );
+
 		if( localStorage.getItem( "authentificationOK" ) == "false" ){
 			document.getElementById( 'connexionPane' ).style.display = 'initial';
 		} else if ( localStorage.getItem( "authentificationOK" ) == "true" ) {
@@ -108,13 +100,18 @@
 		}
 
 		function onDeviceReady() {
-			console.log( "[OK] Device Ready" );
+			// alert( "[OK] Device Ready" );
 		}
 		function onLoad() {
-			// PhoneGap specific, precise le chargement de PhoneGap
-			document.addEventListener('deviceready', onDeviceReady, false );
-		
 			// Verification automatique de la connexion et adaptation au mode online / offline
+			document.addEventListener( "deviceready", onDeviceReady, false );
+			document.addEventListener( "online", function () {
+				// alert( "ONLINE !" );
+			}, false );
+			document.addEventListener( "offline", function () {
+				// alert( "OFFLINE !" );
+			}, false );
+
 			if ( navigator.onLine ) {
 				authentifierUtilisateur();
 			} else {

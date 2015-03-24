@@ -803,10 +803,12 @@ function getNbNDFTmp( etat ) {
 		elem.innerText = getMsgNbNDFTmp();
 	break;
 	case "SUP_NDF_TMP" :
+		activateBlink( "ON", "rcpt_nb_ndf_tmp" );
 		nb_notes_tmp --;
 		elem.innerText = getMsgNbNDFTmp();
-		if( nb_notes_tmp == 0 ){
+		if( nb_notes_tmp <= 0 ){
 			elem.innerText = "";
+			activateBlink( "OFF", "rcpt_nb_ndf_tmp");
 		}
 	break;
 	}
@@ -814,4 +816,22 @@ function getNbNDFTmp( etat ) {
 function getMsgNbNDFTmp() {
 	var txt = "( " + nb_notes_tmp + " ) en attente"; 
 	return txt;
+}
+
+function activateBlink( etat, elem ){
+	switch( etat ){
+		case "ON" :
+			document.getElementById( elem ).className += " blink";
+			$(document).ready( function (){
+				$( "#" + elem ).blink( { delay: 100 });
+			});
+		break;
+		case "OFF" :
+			document.getElementById( elem ).classList.remove( "blink" );
+			$(document).ready( function (){
+				$( "#" + elem ).unblink();
+			});
+		break;
+	}
+
 }

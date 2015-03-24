@@ -1,35 +1,24 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
+<html lang="fr">
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <meta name="viewport" content="user-scalable=yes, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> 
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
-	<script type="text/javascript" src="js/jquery-1.11.2.min.js"> </script>
-	<script type="text/javascript" src="js/bootstrap.js"> </script>
+	<link rel="stylesheet" type="text/css" href="css/font-awesome-4.3.0/css/font-awesome.min.css" />
+	<!-- !important à garder pour debug sous IE / Weinre -->
+	<!--[if IE]>
+		<meta name="X-UA-COMPATIBLE" content="IE=10" />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">	
+		<script type="text/javascript" src="http://172.16.0.24:8080/target/target-script-min.js#anonymous"></script>
+		<script type="text/javascript" src="js/wp-specific.js"> </script> 
+	<![endif]-->
+
+	<script type="text/javascript" src="js/jquery-blink/jquery-1.3.2.min.js"> </script>
+	<script type="text/javascript" src="js/jquery-blink/jquery-blink.js"> </script>
 	<style type="text/css">
 		/* specific css to hide spinner elements of input type = number */
 		input::-webkit-outer-spin-button,
@@ -43,10 +32,13 @@
         <title>Obexto Mobilité - Notes De Frais</title>
     </head>
     <body style="background-color: gainsboro;" onload="javascript:onLoad();">
-	<img src="./img/obexto.png" width="50%" />
 	<div class="container">
-		<form id="formAjoutNDF">
-
+		<div class="row">
+			<img id="img" src="./img/obexto.png" class="img-responsive" alt="logo-de-la-societe-obexto" />
+		</div>
+	</div>
+	<form id="formAjoutNDF">
+	<div class="container">
 		<div class="row">
 			<div class="col-xs-10">
 				<h4> CREER NOTE DE FRAIS </h4>
@@ -64,7 +56,7 @@
 		<div class="row">
 			<div id="rcpt_post_image" class="col-xs-2"> </div>
 			<div class="col-xs-4 col-xs-offset-6">
-				<button type="button" role="button" class="btn btn-default btn-block" href="#" onclick="javascript:selectPictureSrc();"><i class="fa fa-camera"></i> Photo </button>
+				<button type="button" role="button" class="btn btn-default btn-block" onclick="javascript:selectPictureSrc();"><i class="fa fa-camera"></i> Photo </button>
 			 </div>
 		</div>
 		<div class="row">
@@ -87,10 +79,10 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-4">
-				<label for="VAL_NOTE_FRAI"> Montant TTC </label>
+				<label for="VAL_NOTE_FRAI"> Montant TTC ( € ) </label>
 			 </div>
 			<div class="col-xs-8">
-				<input id="VAL_NOTE_FRAI" type="number" class="form-control" min="0" step="any" placeholder="00.00" onkeypress="return isMontantValid( event );" />
+				<input id="VAL_NOTE_FRAI" type="number" class="form-control" min="0" step="any" placeholder="00.00" onkeypress="return isMontantValid( event );" onchange="checkDecimal( event );" />
 			 </div>
 		</div>
 		<div class="row">
@@ -121,9 +113,9 @@
 		<div class="row">
 			<div id="ajaxReceiver"> </div>
 		</div>
+	</div>
+	</form>
 		
-		</form>
-
 	<!-- //////////////////////////////// MODAL POUR L ENVOI DES NDF TEMPORAIRES /////////////////////////////////
 	<div id="div-envoi-ndf-attente" role="dialog" class="modal fade" tabindex="-1" aria-labelledby="div-envoi-ndf-attente" aria-hidden="true">
 		<div class="modal-dialog">
@@ -148,7 +140,7 @@
         <script type="text/javascript" src="js/connexionsERP.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="js/cameraLocal.js" charset="utf-8" defer></script>
         <script type="text/javascript" src="js/speechLocal.js" charset="utf-8" defer></script>
-	<script type="text/javascript" charset="UTF-8">
+	<script type="text/javascript">
 
 		// Definition des variables pour l'envoi SOAP
 		var LAT_PHOT, LNGT_PHOT, LAT_CREA, LNGT_CREA, LAT_ASSO, LNGT_ASSO, LAT_ENV, LNGT_ENV;
@@ -159,7 +151,7 @@
 		localStorage.setItem( "cached_data", false );
 
 		function onDeviceReady() {
-			alert( "Device Ready OK" );
+			// alert( "Device Ready OK" );
 		}
 		function onLoad() {
 			reinitSelect( "type-ndf" );	
@@ -195,10 +187,24 @@
 
 			 return true;
 		}
+		function checkDecimal( ev ){
+			var el = document.getElementById( "VAL_NOTE_FRAI" );
+			var ch = el.value.indexOf(".");
+			if( ch == -1 ){
+				// no presence of .
+			       	return el.value += ".00";
+			} else {
+				// presence of .
+				var dig = Number( el.value );
+				var digCut = Number( dig.toFixed( 2 ));
+				// digCut = String( digCut );
+				return el.value = digCut;
+			}
+			
+		}
 		function annulerNDF() {
 			window.location.assign ( "./choixApp.html" );
 		}
-
 	</script>
     </body>
 </html>
